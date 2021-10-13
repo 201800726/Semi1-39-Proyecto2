@@ -1,1 +1,165 @@
-<p>login works!</p>
+<div fxFlexFill fxLayout="row" fxLayoutAlign="space-evenly">
+  <div fxLayout="column" fxLayoutAlign="center center" fxFlex *ngIf="!deviceXs">
+    <h1 class="u-storage-title">U-Social</h1>
+    <p></p>
+    <span>Stay at home, stay in touch</span>
+  </div>
+  <div>
+    <mat-card fxFlex fxLayoutAlign="center center" background-color="primary">
+      <mat-tab-group>
+        <mat-tab label="SINGIN">
+          <div style="height: 240px">
+            <button mat-button disabled></button>
+            <form
+              autocomplete="off"
+              fxLayout="column"
+              fxLayoutAlign="space-evenly stretch"
+              #formSignin="ngForm"
+              (ngSubmit)="signin(formSignin)"
+            >
+              <mat-form-field appearance="outline">
+                <mat-label>User or E-mail</mat-label>
+                <input
+                  matInput
+                  [(ngModel)]="user.username"
+                  name="userField"
+                  #userField="ngModel"
+                  required
+                />
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Password</mat-label>
+                <input
+                  matInput
+                  type="password"
+                  [(ngModel)]="password"
+                  name="passwordField"
+                  id="passwordField"
+                  #passwordField="ngModel"
+                  required
+                />
+              </mat-form-field>
+              <div fxLayout="row" fxLayoutAlign="end">
+                <button
+                  mat-icon-button
+                  type="submit"
+                  [disabled]="!formSignin.form.valid"
+                  color="primary"
+                >
+                  <mat-icon class="icon">login</mat-icon>
+                </button>
+              </div>
+            </form>
+          </div>
+          <div fxLayout="column" fxLayoutAlign="end center" *ngIf="deviceXs">
+            <h1 class="u-storage-title">U-Storage</h1>
+            <p>Share your files with your friends</p>
+          </div>
+        </mat-tab>
+        <mat-tab label="SIGNUP">
+          <div style="height: 100%">
+            <button mat-button disabled></button>
+            <form
+              autocomplete="off"
+              fxLayout="column"
+              fxLayoutAlign="space-evenly stretch"
+              autocomplete="off"
+              fxLayout="column"
+              fxLayoutAlign="space-evenly stretch"
+              #formSignup="ngForm"
+              (ngSubmit)="signup(formSignup)"
+            >
+              <div fxLayout="row" fxLayoutAlign="center">
+                <div class="circular--landscape">
+                  <img
+                    [src]="
+                      uploadedPhoto ||
+                      'https://ibalz.com/wp-content/uploads/2019/10/default-profile.png'
+                    "
+                  />
+                </div>
+                <input
+                  type="file"
+                  class="file-input"
+                  (change)="onFileSelected($event)"
+                  accept="image/*"
+                  #fileUpload
+                />
+              </div>
+              <button
+                mat-button
+                color="accent"
+                (click)="fileUpload.click()"
+                type="button"
+              >
+                Upload photo
+                <mat-icon class="icon camera">add_a_photo</mat-icon>
+              </button>
+              <p></p>
+              <mat-form-field appearance="outline">
+                <mat-label>Name</mat-label>
+                <input
+                  matInput
+                  [(ngModel)]="new_user.name"
+                  name="nameField"
+                  #nameField="ngModel"
+                  required
+                />
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>User</mat-label>
+                <input
+                  matInput
+                  [(ngModel)]="new_user.username"
+                  name="usernameField"
+                  #usernameField="ngModel"
+                  required
+                />
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>E-mail</mat-label>
+                <input
+                  matInput
+                  [(ngModel)]="new_user.e_mail"
+                  name="mailField"
+                  #mailField="ngModel"
+                  required
+                />
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Password</mat-label>
+                <input
+                  matInput
+                  type="password"
+                  [(ngModel)]="new_password"
+                  name="newPasswordField"
+                  #newPasswordField="ngModel"
+                  required
+                />
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Confirm Password</mat-label>
+                <input
+                  matInput
+                  type="password"
+                  [(ngModel)]="confirmed"
+                  name="condirmedField"
+                  #condirmedField="ngModel"
+                  required
+                />
+              </mat-form-field>
+              <button
+                mat-button
+                color="accent"
+                type="submit"
+                [disabled]="!formSignup.form.valid"
+              >
+                Create my account
+              </button>
+            </form>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card>
+  </div>
+</div>

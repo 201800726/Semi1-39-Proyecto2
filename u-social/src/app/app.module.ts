@@ -1,15 +1,24 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { PagesComponent } from './pages/pages.component';
+import { AuthModule } from './auth/auth.module';
+import { PagesModule } from './pages/pages.module';
+import { LayoutModule } from '@angular/cdk/layout';
 
 @NgModule({
-  declarations: [AppComponent, PagesComponent],
-  imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule],
+  declarations: [AppComponent],
+  imports: [
+    AppRoutingModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    AuthModule,
+    PagesModule,
+    LayoutModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

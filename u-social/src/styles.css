@@ -1,4 +1,87 @@
 /* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+svg#clouds {
+  position: fixed;
+  bottom: -160px;
+  left: -230px;
+  z-index: -10;
+  width: 1920px;
+}
+
+html,
+body {
+  min-height: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+* {
+  font-family: "Quicksand", sans-serif !important;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #e6ee9c;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b3bc6d;
+}
+
+.icon {
+  font-family: "Material Icons" !important;
+}
+
+.mat-menu-panel {
+  max-width: 180px !important;
+}
+
+.mat-dialog-container {
+  background: #2632384b;
+  color: #ffebee;
+  backdrop-filter: blur(5px);
+}
+
+.cdk-overlay-pane {
+  max-width: 100% !important;
+}
+
+.canvasWrapper {
+  width: 500px !important;
+  height: 700px !important;
+}
+
+.page {
+  width: 500px !important;
+  height: 700px !important;
+}
+
+.textLayer {
+  width: 500px !important;
+  height: 700px !important;
+}
+
+canvas {
+  width: 500px !important;
+  height: 700px !important;
+}
+
+.ng2-pdf-viewer-container {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  max-width: 510px !important;
+  max-height: 710px !important;
+  left: 200px !important;
+  top: 70px;
+}

@@ -15,6 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatIconModule } from '@angular/material/icon';
 import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
@@ -35,6 +36,7 @@ import { BrowserModule } from '@angular/platform-browser';
     MatToolbarModule,
     MatTabsModule,
     MatSnackBarModule,
+    MatIconModule,
   ],
 })
 export class AuthModule {}
