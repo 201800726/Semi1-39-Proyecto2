@@ -52,8 +52,8 @@
             </form>
           </div>
           <div fxLayout="column" fxLayoutAlign="end center" *ngIf="deviceXs">
-            <h1 class="u-storage-title">U-Storage</h1>
-            <p>Share your files with your friends</p>
+            <h1 class="u-storage-title">U-Social</h1>
+            <p>Stay at home, stay in touch</p>
           </div>
         </mat-tab>
         <mat-tab label="SIGNUP">
@@ -93,6 +93,15 @@
                 type="button"
               >
                 Upload photo
+                <mat-icon class="icon camera"> file_upload</mat-icon>
+              </button>
+              <button
+                mat-button
+                color="accent"
+                (click)="openDialogCamera()"
+                type="button"
+              >
+                Take a photo
                 <mat-icon class="icon camera">add_a_photo</mat-icon>
               </button>
               <p></p>

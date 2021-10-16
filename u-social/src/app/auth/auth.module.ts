@@ -7,7 +7,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { WebcamModule } from 'ngx-webcam';
 
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -17,9 +19,11 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { BrowserModule } from '@angular/platform-browser';
+import { CameraDialogComponent } from './camera-dialog/camera-dialog.component';
 
 @NgModule({
-  declarations: [LoginComponent],
+  declarations: [LoginComponent, CameraDialogComponent],
+  entryComponents: [CameraDialogComponent],
   exports: [LoginComponent],
   imports: [
     CommonModule,
@@ -37,6 +41,8 @@ import { BrowserModule } from '@angular/platform-browser';
     MatTabsModule,
     MatSnackBarModule,
     MatIconModule,
+    MatDialogModule,
+    WebcamModule,
   ],
 })
 export class AuthModule {}

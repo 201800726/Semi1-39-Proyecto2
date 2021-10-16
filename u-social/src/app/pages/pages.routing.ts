@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CameraComponent } from '../components/camera/camera.component';
 
 import { AuthGuard } from '../guards/auth.guard';
 
@@ -11,7 +12,11 @@ const routes: Routes = [
     component: PagesComponent,
     canActivate: [AuthGuard],
     children: [
-      //{ path: '', component: DashboardComponent, data: { title: 'Dashboard' } }, //TODO add child paths
+      /* {
+        path: 'camera',
+        component: CameraComponent,
+        data: { title: 'Camera' },
+      },*/
     ],
   },
 ];

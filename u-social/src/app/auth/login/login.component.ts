@@ -8,6 +8,8 @@ import { UserModel } from 'src/models/user.model';
 import { Router } from '@angular/router';
 
 import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { CameraDialogComponent } from '../camera-dialog/camera-dialog.component';
 
 @Component({
   selector: 'app-login',
@@ -34,7 +36,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private _router: Router,
     private _snackBar: MatSnackBar,
     public mediaObserver: MediaObserver,
-    public fb: FormBuilder
+    public fb: FormBuilder,
+    public dialog: MatDialog
   ) {
     this.hide = true;
     this.mediaSub = null;
@@ -127,5 +130,13 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.showSnackbar('Now you have an account, Signin! c:');
       Form.resetForm();
     } catch (error) {}
+  }
+
+  openDialogCamera() {
+    const dialogRef = this.dialog.open(CameraDialogComponent, {});
+
+    dialogRef.afterClosed().subscribe(async (result) => {
+      console.log(result);
+    });
   }
 }
