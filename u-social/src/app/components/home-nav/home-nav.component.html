@@ -38,11 +38,16 @@
         </div>
 
         <div fxLayout="row" fxLayoutAlign="end" *ngIf="editing">
-          <button mat-icon-button type="button" color="accent">
+          <button
+            mat-icon-button
+            type="button"
+            color="accent"
+            (click)="openDialogCamera()"
+          >
             <mat-icon class="icon">add_a_photo</mat-icon>
           </button>
           <button mat-icon-button type="button" color="warn">
-            <mat-icon class="icon" (click)="editing = false">cancel</mat-icon>
+            <mat-icon class="icon" (click)="cancel()">cancel</mat-icon>
           </button>
         </div>
 

@@ -21,10 +21,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDialogModule } from '@angular/material/dialog';
 import { PasswordDialogComponent } from '../components/password-dialog/password-dialog.component';
+import { CameraDialogComponent } from '../auth/camera-dialog/camera-dialog.component';
 
 @NgModule({
   declarations: [PagesComponent, HomeNavComponent, PasswordDialogComponent],
-  entryComponents: [PasswordDialogComponent],
+  entryComponents: [PasswordDialogComponent, CameraDialogComponent],
   imports: [
     FlexLayoutModule,
     CommonModule,
