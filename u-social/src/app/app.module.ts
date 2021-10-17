@@ -7,7 +7,6 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AuthModule } from './auth/auth.module';
 import { PagesModule } from './pages/pages.module';
-import { LayoutModule } from '@angular/cdk/layout';
 
 @NgModule({
   declarations: [AppComponent],
@@ -17,7 +16,6 @@ import { LayoutModule } from '@angular/cdk/layout';
     BrowserAnimationsModule,
     AuthModule,
     PagesModule,
-    LayoutModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

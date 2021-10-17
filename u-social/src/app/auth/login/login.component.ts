@@ -78,7 +78,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     try {
       const md5 = new Md5();
       this.user.password = '' + md5.appendStr(this.password).end();
-      console.log(this.user);
       if (this.normal_login) {
         //TODO service normal login
       } else {
@@ -86,6 +85,8 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.showSnackbar('You need a photo to login!');
         //TODO get profile_picture from user
         //TODO send profile_picture and new picture(new_user.profile_picture) to apigatway with lambda
+        localStorage.setItem('user', JSON.stringify(this.user));
+        this._router.navigate(['/home']);
       }
     } catch (error) {
       Form.resetForm();

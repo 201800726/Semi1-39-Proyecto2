@@ -1,0 +1,49 @@
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 300px;
+  padding: 2%;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.circular--landscape {
+  display: inline-block;
+  position: relative;
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.circular--landscape img {
+  width: auto;
+  height: 100%;
+}
+
+.user-name {
+  font-size: x-large;
+  font-weight: bold;
+  padding-bottom: 2%;
+  padding-top: 4%;
+}
+
+.user-details {
+  color: #90a4ae;
+  font-size: x-large;
+}
+
+.spacer-details {
+  font-size: xx-small;
+  color: white;
+}

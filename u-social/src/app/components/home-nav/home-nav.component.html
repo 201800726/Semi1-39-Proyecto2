@@ -1,0 +1,140 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) === false"
+  >
+    <mat-toolbar> </mat-toolbar>
+    <mat-nav-list>
+      <div>
+        <div fxLayout="column" fxLayoutAlign="space-evenly center">
+          <div class="circular--landscape">
+            <img
+              [src]="
+                user.profile_picture ||
+                'https://ibalz.com/wp-content/uploads/2019/10/default-profile.png'
+              "
+            />
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="space-between" *ngIf="!editing">
+          <mat-chip-list aria-label="Fish selection">
+            <mat-chip color="warn" selected *ngIf="user.bot_mode">
+              <mat-icon class="icon">smart_toy</mat-icon>
+              &nbsp; On</mat-chip
+            >
+            <mat-chip color="info" selected *ngIf="!user.bot_mode">
+              <mat-icon class="icon">smart_toy</mat-icon>
+              &nbsp; Off</mat-chip
+            >
+          </mat-chip-list>
+          <button mat-icon-button type="button" color="accent">
+            <mat-icon class="icon" (click)="editing = true">edit</mat-icon>
+          </button>
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="end" *ngIf="editing">
+          <button mat-icon-button type="button" color="accent">
+            <mat-icon class="icon">add_a_photo</mat-icon>
+          </button>
+          <button mat-icon-button type="button" color="warn">
+            <mat-icon class="icon" (click)="editing = false">cancel</mat-icon>
+          </button>
+        </div>
+
+        <!-- USER INFO -->
+        <div
+          fxLayout="column"
+          fxLayoutAlign="space-evenly center"
+          *ngIf="!editing"
+        >
+          <span class="user-name">{{ user.name }}</span>
+          <span style="padding-bottom: 5%">@{{ user.username }}</span>
+          <div>
+            <mat-icon class="icon user-details">group</mat-icon>
+            <span class="spacer-details"> | </span>
+            <span>{{ user.friends }} friends </span>
+            <span class="spacer-details"> | </span>
+            <mat-icon class="icon user-details">view_quilt</mat-icon>
+            <span class="spacer-details"> | </span>
+            <span>{{ user.publications }} publications </span>
+          </div>
+        </div>
+        <!--------------->
+        <!-- USER INFO UPDATE-->
+        <div fxLayout="column" fxLayoutAlign="center" *ngIf="editing">
+          <p></p>
+          <mat-form-field appearance="outline">
+            <mat-label>Name</mat-label>
+            <input
+              matInput
+              [(ngModel)]="user_updated.name"
+              name="nameField"
+              #nameField="ngModel"
+            />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Username</mat-label>
+            <input
+              matInput
+              [(ngModel)]="user_updated.username"
+              name="userField"
+              #userField="ngModel"
+            />
+          </mat-form-field>
+          <div fxLayout="row" fxLayoutAlign="space-evenly">
+            <mat-chip-list aria-label="Fish selection">
+              <mat-chip color="info" selected>
+                <mat-icon class="icon">smart_toy</mat-icon>
+                &nbsp;Off</mat-chip
+              >
+            </mat-chip-list>
+            <mat-slide-toggle
+              [(ngModel)]="user_updated.bot_mode"
+            ></mat-slide-toggle>
+            <mat-chip color="warn" selected>
+              <mat-icon class="icon">smart_toy</mat-icon> &nbsp; On</mat-chip
+            >
+          </div>
+          <p></p>
+          <form
+            autocomplete="off"
+            #formUpdate="ngForm"
+            fxLayout="column"
+            fxLayoutAlign="center stretch"
+            (submit)="updateUser()"
+          >
+            <button mat-stroked-button color="warn" type="submit">Save</button>
+          </form>
+        </div>
+        <!--------------->
+
+        <div fxLayout="column" fxLayoutAlign="end stretch">
+          <p></p>
+          <button mat-button color="accent" (click)="logOut()" type="button">
+            Sign Out
+            <mat-icon class="icon">logout</mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async"
+      >
+        <mat-icon class="icon">menu</mat-icon>
+      </button>
+    </mat-toolbar>
+    <ng-content></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>
