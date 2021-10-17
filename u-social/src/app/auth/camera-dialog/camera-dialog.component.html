@@ -1,14 +1,7 @@
 <div mat-dialog-content>
   <div *ngIf="isCameraExist; else noCameraExist">
     <div style="text-align: center">
-      <div class="btn-group">
-        <button class="button" (click)="takeSnapshot()">Take Picture</button>
-        <button class="button" (click)="changeWebCame(true)">
-          Toggle Camera
-        </button>
-        <button class="button" (click)="onOffWebCame()">Switch camera</button>
-      </div>
-      <br />
+      <img [src]="data.url || ''" />
       <webcam
         [height]="500"
         [width]="1000"
@@ -28,4 +21,15 @@
   </div>
 
   <ng-template #noCameraExist> Camera device not available </ng-template>
+</div>
+<div mat-dialog-actions fxLayout="row" fxLayoutAlign="center center">
+  <button mat-icon-button (click)="retry()">
+    <mat-icon class="icon">replay</mat-icon>
+  </button>
+  <button mat-icon-button (click)="takeSnapshot()">
+    <mat-icon class="icon">camera</mat-icon>
+  </button>
+  <button mat-icon-button [mat-dialog-close]="data.image">
+    <mat-icon class="icon">done</mat-icon>
+  </button>
 </div>

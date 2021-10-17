@@ -1,4 +1,5 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { WebcamImage, WebcamInitError, WebcamUtil } from 'ngx-webcam';
 import { Observable, Subject } from 'rxjs';
 
@@ -8,9 +9,9 @@ import { Observable, Subject } from 'rxjs';
   styleUrls: ['./camera-dialog.component.css'],
 })
 export class CameraDialogComponent implements OnInit {
-  @Output() getPicture = new EventEmitter<WebcamImage>();
   showWebcam = true;
   isCameraExist = true;
+  image = null;
 
   errors: WebcamInitError[] = [];
 
@@ -20,7 +21,7 @@ export class CameraDialogComponent implements OnInit {
     boolean | string
   >();
 
-  constructor() {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
 
   ngOnInit(): void {
     WebcamUtil.getAvailableVideoInputs().then(
@@ -47,8 +48,14 @@ export class CameraDialogComponent implements OnInit {
   }
 
   handleImage(webcamImage: WebcamImage) {
-    this.getPicture.emit(webcamImage);
     this.showWebcam = false;
+    this.data.image = webcamImage;
+    this.data.url = webcamImage.imageAsDataUrl;
+  }
+
+  retry() {
+    this.showWebcam = true;
+    this.data.url = '';
   }
 
   get triggerObservable(): Observable<void> {

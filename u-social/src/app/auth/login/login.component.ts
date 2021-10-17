@@ -28,6 +28,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   public new_password: string;
   public confirmed: string;
   public profile_picture: boolean;
+  public new_picture: any;
 
   public uploadedPhoto: string;
   public myForm: FormGroup;
@@ -126,6 +127,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.showSnackbar('Profile picture required :o');
         throw new Error();
       }
+      console.log(this.new_user);
       this.new_user = new UserModel();
       this.showSnackbar('Now you have an account, Signin! c:');
       Form.resetForm();
@@ -133,10 +135,19 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   openDialogCamera() {
-    const dialogRef = this.dialog.open(CameraDialogComponent, {});
+    const dialogRef = this.dialog.open(CameraDialogComponent, {
+      data: {
+        image: this.new_picture,
+        url: '',
+      },
+    });
 
     dialogRef.afterClosed().subscribe(async (result) => {
-      console.log(result);
+      if (!result) this.profile_picture = false;
+      this.new_user.profile_picture = result.imageAsBase64;
+      this.profile_picture = true;
+      this.new_picture = result.imageAsDataUrl;
+      this.uploadedPhoto = '';
     });
   }
 }
