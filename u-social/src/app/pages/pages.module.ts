@@ -20,6 +20,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatMenuModule } from '@angular/material/menu';
+
 import { PasswordDialogComponent } from '../components/password-dialog/password-dialog.component';
 import { CameraDialogComponent } from '../auth/camera-dialog/camera-dialog.component';
 
@@ -42,6 +45,8 @@ import { CameraDialogComponent } from '../auth/camera-dialog/camera-dialog.compo
     MatInputModule,
     MatSlideToggleModule,
     MatDialogModule,
+    MatTooltipModule,
+    MatMenuModule,
     FormsModule,
     ReactiveFormsModule,
   ],

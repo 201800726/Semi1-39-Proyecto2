@@ -14,6 +14,7 @@ import { PasswordDialogComponent } from '../password-dialog/password-dialog.comp
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CameraDialogComponent } from 'src/app/auth/camera-dialog/camera-dialog.component';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-home-nav',
@@ -28,6 +29,8 @@ export class HomeNavComponent {
   public new_picture: string;
   public prev_picture: string | undefined;
 
+  public myForm: FormGroup;
+
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
     .pipe(
@@ -39,13 +42,17 @@ export class HomeNavComponent {
     private breakpointObserver: BreakpointObserver,
     public dialog: MatDialog,
     private _snackBar: MatSnackBar,
-    private _router: Router
+    private _router: Router,
+    public fb: FormBuilder
   ) {
     this.user = new UserModel();
     this.user_updated = new UserModel();
     this.editing = false;
     this.new_picture = '';
     this.prev_picture = '';
+    this.myForm = this.fb.group({
+      img: [null],
+    });
   }
 
   ngOnInit() {
@@ -76,7 +83,7 @@ export class HomeNavComponent {
         const md5 = new Md5();
         this.user.password = '' + md5.appendStr(result).end();
         if (true) {
-          //TODO service for update user
+          //TODO service for update user photo (new_picture base 64)
           console.log(this.user.password);
           this.editing = false;
           this.user = this.user_updated;
@@ -96,6 +103,7 @@ export class HomeNavComponent {
     this.user.profile_picture = this.prev_picture;
   }
   openDialogCamera() {
+    //TODO Menu
     const dialogRef = this.dialog.open(CameraDialogComponent, {
       data: {
         image: '',
@@ -104,10 +112,48 @@ export class HomeNavComponent {
     });
 
     dialogRef.afterClosed().subscribe(async (result) => {
-      this.new_picture = result.imageAsBase64;
-      this.prev_picture = this.user.profile_picture;
-      this.user_updated.profile_picture = result.imageAsDataUrl;
+      if (result) {
+        this.new_picture = result.imageAsBase64;
+        this.user_updated.profile_picture = result.imageAsDataUrl;
+      }
     });
+  }
+
+  onFileSelected(event: any) {
+    try {
+      const file = (event.target as HTMLInputElement).files![0];
+      if (file) {
+        var temporal: string[] = file.name.split('.');
+        var extension = temporal[1].toLocaleLowerCase();
+        let extensiones = ['jpg', 'png', 'jpeg', 'ico', 'svg'];
+        if (extensiones.indexOf(extension) == -1) {
+          throw new Error();
+        } else {
+          this.convert64(file);
+          this.myForm.patchValue({
+            img: file,
+          });
+
+          this.myForm.get('img')?.updateValueAndValidity();
+          const reader = new FileReader();
+          reader.onload = () => {
+            this.user_updated.profile_picture = reader.result as string;
+          };
+          reader.readAsDataURL(file);
+        }
+      }
+    } catch (error) {
+      this.showSnackbar('Extension not allowed :o');
+    }
+  }
+
+  private convert64(photo: any) {
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      const base64 = e.target.result;
+      this.new_picture = base64.split(',')[1];
+    };
+    reader.readAsDataURL(photo);
   }
 
   showSnackbar(message: string) {

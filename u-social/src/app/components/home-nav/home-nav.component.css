@@ -47,3 +47,7 @@
   font-size: xx-small;
   color: white;
 }
+
+.file-input {
+  display: none;
+}

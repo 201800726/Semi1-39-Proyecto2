@@ -33,7 +33,12 @@
             >
           </mat-chip-list>
           <button mat-icon-button type="button" color="accent">
-            <mat-icon class="icon" (click)="editing = true">edit</mat-icon>
+            <mat-icon
+              class="icon"
+              (click)="editing = true"
+              matTooltip="Edit profile"
+              >edit</mat-icon
+            >
           </button>
         </div>
 
@@ -42,12 +47,32 @@
             mat-icon-button
             type="button"
             color="accent"
-            (click)="openDialogCamera()"
+            [matMenuTriggerFor]="menu"
           >
             <mat-icon class="icon">add_a_photo</mat-icon>
           </button>
+          <mat-menu #menu="matMenu">
+            <input
+              type="file"
+              class="file-input"
+              (change)="onFileSelected($event)"
+              accept="image/*"
+              #fileUpload
+            />
+            <button mat-menu-item (click)="fileUpload.click()">
+              <mat-icon class="icon"> file_upload</mat-icon>
+              Upload photo
+            </button>
+
+            <button mat-menu-item (click)="openDialogCamera()">
+              <mat-icon class="icon">camera</mat-icon>
+              Camera
+            </button>
+          </mat-menu>
           <button mat-icon-button type="button" color="warn">
-            <mat-icon class="icon" (click)="cancel()">cancel</mat-icon>
+            <mat-icon class="icon" matTooltip="Cancel" (click)="cancel()"
+              >cancel</mat-icon
+            >
           </button>
         </div>
 
