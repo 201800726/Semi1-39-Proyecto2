@@ -25,9 +25,11 @@ import { MatMenuModule } from '@angular/material/menu';
 
 import { PasswordDialogComponent } from '../components/password-dialog/password-dialog.component';
 import { CameraDialogComponent } from '../auth/camera-dialog/camera-dialog.component';
+import { FeedComponent } from './feed/feed.component';
+import { ChatComponent } from './chat/chat.component';
 
 @NgModule({
-  declarations: [PagesComponent, HomeNavComponent, PasswordDialogComponent],
+  declarations: [PagesComponent, HomeNavComponent, PasswordDialogComponent, FeedComponent, ChatComponent],
   entryComponents: [PasswordDialogComponent, CameraDialogComponent],
   imports: [
     FlexLayoutModule,

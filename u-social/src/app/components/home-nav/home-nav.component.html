@@ -154,7 +154,12 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar color="primary">
+    <mat-toolbar
+      color="primary"
+      fxLayout="row"
+      fxLayoutAlign="space-between center"
+    >
+      <p *ngIf="!(isHandset$ | async)"></p>
       <button
         type="button"
         aria-label="Toggle sidenav"
@@ -164,6 +169,14 @@
       >
         <mat-icon class="icon">menu</mat-icon>
       </button>
+      <div>
+        <button type="button" mat-icon-button routerLink="feed">
+          <mat-icon class="icon">cottage</mat-icon>
+        </button>
+        <button type="button" mat-icon-button routerLink="chat">
+          <mat-icon class="icon">question_answer</mat-icon>
+        </button>
+      </div>
     </mat-toolbar>
     <ng-content></ng-content>
   </mat-sidenav-content>

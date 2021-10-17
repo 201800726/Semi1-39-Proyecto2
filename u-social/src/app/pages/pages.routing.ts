@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AuthGuard } from '../guards/auth.guard';
 
+import { ChatComponent } from './chat/chat.component';
+import { FeedComponent } from './feed/feed.component';
 import { PagesComponent } from './pages.component';
 
 const routes: Routes = [
@@ -11,11 +13,16 @@ const routes: Routes = [
     component: PagesComponent,
     canActivate: [AuthGuard],
     children: [
-      /* {
-        path: 'camera',
-        component: CameraComponent,
-        data: { title: 'Camera' },
-      },*/
+      {
+        path: 'feed',
+        component: FeedComponent,
+        data: { title: 'Feed' },
+      },
+      {
+        path: 'chat',
+        component: ChatComponent,
+        data: { title: 'Chat' },
+      },
     ],
   },
 ];
