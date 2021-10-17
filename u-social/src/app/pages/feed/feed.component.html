@@ -1,1 +1,37 @@
-<p>feed works!</p>
+<mat-stepper
+  class="demo-stepper"
+  style="background: none"
+  linear="true"
+  (selectionChange)="selectionChange($event)"
+  labelPosition="bottom"
+  #stepper
+>
+  <mat-step label="" state="edge" completed="true" editable="false">
+    <p>Hi! O/</p>
+  </mat-step>
+  <mat-step label="Publications" state="pubs" [completed]="next">
+    <p>Pubs</p>
+  </mat-step>
+  <mat-step label="Friends" state="friends" [completed]="!next">
+    <p>friends</p>
+  </mat-step>
+  <mat-step label="" state="edge" completed="true" editable="false">
+    <p>Bye! O/</p>
+  </mat-step>
+
+  <ng-template matStepperIcon="pubs">
+    <mat-icon class="icon">view_quilt</mat-icon>
+  </ng-template>
+  <ng-template matStepperIcon="friends">
+    <mat-icon class="icon">group</mat-icon>
+  </ng-template>
+  <ng-template matStepperIcon="edit">
+    <mat-icon class="icon">star</mat-icon>
+  </ng-template>
+  <ng-template matStepperIcon="edge">
+    <mat-icon class="icon">spoke</mat-icon>
+  </ng-template>
+  <ng-template matStepperIcon="done">
+    <mat-icon class="icon">spoke</mat-icon>
+  </ng-template>
+</mat-stepper>
