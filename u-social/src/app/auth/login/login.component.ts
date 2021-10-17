@@ -3,6 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { MediaObserver, MediaChange } from '@angular/flex-layout';
 import { Subscription } from 'rxjs';
+import { Md5 } from 'ts-md5';
 
 import { UserModel } from 'src/models/user.model';
 import { Router } from '@angular/router';
@@ -21,6 +22,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   public hide: boolean;
   public deviceXs: boolean;
+  public normal_login: boolean;
 
   public user: UserModel;
   public new_user: UserModel;
@@ -43,6 +45,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.hide = true;
     this.mediaSub = null;
     this.deviceXs = false;
+    this.normal_login = true;
     this.user = new UserModel();
     this.new_user = new UserModel();
     this.password = '';
@@ -73,6 +76,17 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   public async signin(Form: NgForm): Promise<void> {
     try {
+      const md5 = new Md5();
+      this.user.password = '' + md5.appendStr(this.password).end();
+      console.log(this.user);
+      if (this.normal_login) {
+        //TODO service normal login
+      } else {
+        if (!this.new_user.profile_picture)
+          this.showSnackbar('You need a photo to login!');
+        //TODO get profile_picture from user
+        //TODO send profile_picture and new picture(new_user.profile_picture) to apigatway with lambda
+      }
     } catch (error) {
       Form.resetForm();
       this.showSnackbar('Incorrect username or password.');

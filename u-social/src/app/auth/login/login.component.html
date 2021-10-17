@@ -17,6 +17,16 @@
               #formSignin="ngForm"
               (ngSubmit)="signin(formSignin)"
             >
+              <div fxLayout="row" fxLayoutAlign="end" *ngIf="!normal_login">
+                <button
+                  mat-icon-button
+                  type="button"
+                  (click)="openDialogCamera()"
+                  color="accent"
+                >
+                  <mat-icon class="icon">photo_camera</mat-icon>
+                </button>
+              </div>
               <mat-form-field appearance="outline">
                 <mat-label>User or E-mail</mat-label>
                 <input
@@ -27,7 +37,7 @@
                   required
                 />
               </mat-form-field>
-              <mat-form-field appearance="outline">
+              <mat-form-field appearance="outline" *ngIf="normal_login">
                 <mat-label>Password</mat-label>
                 <input
                   matInput
@@ -39,7 +49,16 @@
                   required
                 />
               </mat-form-field>
-              <div fxLayout="row" fxLayoutAlign="end">
+              <div fxLayout="row" fxLayoutAlign="space-between">
+                <button
+                  mat-button
+                  type="button"
+                  color="accent"
+                  (click)="normal_login = !normal_login"
+                >
+                  <span *ngIf="normal_login"> Use facial recognition </span>
+                  <span *ngIf="!normal_login"> Use normal login </span>
+                </button>
                 <button
                   mat-icon-button
                   type="submit"
