@@ -23,16 +23,20 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatCardModule } from '@angular/material/card';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 import { PasswordDialogComponent } from '../components/password-dialog/password-dialog.component';
 import { CameraDialogComponent } from '../auth/camera-dialog/camera-dialog.component';
 import { FeedComponent } from './feed/feed.component';
 import { ChatComponent } from './chat/chat.component';
+import { PublicationComponent } from '../components/publication/publication.component';
 
 @NgModule({
   declarations: [
     PagesComponent,
     HomeNavComponent,
+    PublicationComponent,
     PasswordDialogComponent,
     FeedComponent,
     ChatComponent,
@@ -57,6 +61,8 @@ import { ChatComponent } from './chat/chat.component';
     MatTooltipModule,
     MatMenuModule,
     MatStepperModule,
+    MatCardModule,
+    MatGridListModule,
     FormsModule,
     ReactiveFormsModule,
   ],

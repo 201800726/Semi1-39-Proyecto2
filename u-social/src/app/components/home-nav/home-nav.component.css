@@ -17,20 +17,6 @@
   z-index: 1;
 }
 
-.circular--landscape {
-  display: inline-block;
-  position: relative;
-  width: 200px;
-  height: 200px;
-  overflow: hidden;
-  border-radius: 50%;
-}
-
-.circular--landscape img {
-  width: auto;
-  height: 100%;
-}
-
 .user-name {
   font-size: x-large;
   font-weight: bold;
@@ -50,4 +36,10 @@
 
 .file-input {
   display: none;
+}
+
+.header-image {
+  background-size: cover;
+  width: 200px;
+  height: 200px;
 }

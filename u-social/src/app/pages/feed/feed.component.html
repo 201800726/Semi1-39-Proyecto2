@@ -6,18 +6,25 @@
   labelPosition="bottom"
   #stepper
 >
-  <mat-step label="" state="edge" completed="true" editable="false">
-    <p>Hi! O/</p>
-  </mat-step>
+  <mat-step label="" state="edge" completed="true" editable="false"> </mat-step>
   <mat-step label="Publications" state="pubs" [completed]="next">
     <p>Pubs</p>
+    <mat-grid-list cols="1" rowHeight="160px">
+      <mat-grid-tile rowspan="3">
+        <app-publication></app-publication>
+      </mat-grid-tile>
+      <mat-grid-tile rowspan="3">
+        <app-publication></app-publication>
+      </mat-grid-tile>
+      <mat-grid-tile rowspan="3">
+        <app-publication></app-publication>
+      </mat-grid-tile>
+    </mat-grid-list>
   </mat-step>
   <mat-step label="Friends" state="friends" [completed]="!next">
     <p>friends</p>
   </mat-step>
-  <mat-step label="" state="edge" completed="true" editable="false">
-    <p>Bye! O/</p>
-  </mat-step>
+  <mat-step label="" state="edge" completed="true" editable="false"> </mat-step>
 
   <ng-template matStepperIcon="pubs">
     <mat-icon class="icon">view_quilt</mat-icon>

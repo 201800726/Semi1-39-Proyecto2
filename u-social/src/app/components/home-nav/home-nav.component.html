@@ -11,14 +11,13 @@
     <mat-nav-list>
       <div>
         <div fxLayout="column" fxLayoutAlign="space-evenly center">
-          <div class="circular--landscape">
-            <img
-              [src]="
-                user.profile_picture ||
-                'https://ibalz.com/wp-content/uploads/2019/10/default-profile.png'
-              "
-            />
-          </div>
+          <div
+            mat-card-avatar
+            class="header-image"
+            [ngStyle]="{
+              'background-image': 'url(' + user.profile_picture + ')'
+            }"
+          ></div>
         </div>
 
         <div fxLayout="row" fxLayoutAlign="space-between" *ngIf="!editing">
@@ -86,11 +85,11 @@
           <span style="padding-bottom: 5%">@{{ user.username }}</span>
           <div>
             <mat-icon class="icon user-details">group</mat-icon>
-            <span class="spacer-details"> | </span>
+            <span class="spacer-details"> &nbsp; </span>
             <span>{{ user.friends }} friends </span>
-            <span class="spacer-details"> | </span>
+            <span class="spacer-details"> &nbsp; </span>
             <mat-icon class="icon user-details">view_quilt</mat-icon>
-            <span class="spacer-details"> | </span>
+            <span class="spacer-details"> &nbsp; </span>
             <span>{{ user.publications }} publications </span>
           </div>
         </div>
