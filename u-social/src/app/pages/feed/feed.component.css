@@ -1,0 +1,11 @@
+.right-side {
+  overflow: scroll;
+  max-height: 620px;
+  padding-top: 200px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.pub {
+  margin-top: 20px;
+}

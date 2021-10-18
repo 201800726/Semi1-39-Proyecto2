@@ -20,7 +20,7 @@
 
         <div fxLayout="row" fxLayoutAlign="space-between" *ngIf="!editing">
           <mat-chip-list aria-label="Fish selection">
-            <mat-chip color="warn" selected *ngIf="user.bot_mode">
+            <mat-chip color="primary" selected *ngIf="user.bot_mode">
               <mat-icon class="icon">smart_toy</mat-icon>
               &nbsp; On</mat-chip
             >
@@ -66,7 +66,7 @@
               Camera
             </button>
           </mat-menu>
-          <button mat-icon-button type="button" color="warn">
+          <button mat-icon-button type="button" color="primary">
             <mat-icon class="icon" matTooltip="Cancel" (click)="cancel()"
               >cancel</mat-icon
             >
@@ -123,7 +123,7 @@
             <mat-slide-toggle
               [(ngModel)]="user_updated.bot_mode"
             ></mat-slide-toggle>
-            <mat-chip color="warn" selected>
+            <mat-chip color="primary" selected>
               <mat-icon class="icon">smart_toy</mat-icon> &nbsp; On</mat-chip
             >
           </div>
@@ -135,7 +135,9 @@
             fxLayoutAlign="center stretch"
             (submit)="updateUser()"
           >
-            <button mat-stroked-button color="warn" type="submit">Save</button>
+            <button mat-stroked-button color="primary" type="submit">
+              Save
+            </button>
           </form>
         </div>
         <!--------------->
