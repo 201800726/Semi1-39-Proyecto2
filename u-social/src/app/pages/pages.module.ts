@@ -25,6 +25,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { PasswordDialogComponent } from '../components/password-dialog/password-dialog.component';
 import { CameraDialogComponent } from '../auth/camera-dialog/camera-dialog.component';
@@ -63,6 +64,7 @@ import { PublicationComponent } from '../components/publication/publication.comp
     MatStepperModule,
     MatCardModule,
     MatGridListModule,
+    MatProgressBarModule,
     FormsModule,
     ReactiveFormsModule,
   ],

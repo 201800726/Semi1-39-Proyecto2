@@ -11,13 +11,11 @@
     <mat-nav-list>
       <div>
         <div fxLayout="column" fxLayoutAlign="space-evenly center">
-          <div
+          <img
             mat-card-avatar
             class="header-image"
-            [ngStyle]="{
-              'background-image': 'url(' + user.profile_picture + ')'
-            }"
-          ></div>
+            [src]="user.profile_picture"
+          />
         </div>
 
         <div fxLayout="row" fxLayoutAlign="space-between" *ngIf="!editing">

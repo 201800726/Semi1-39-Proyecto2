@@ -89,15 +89,16 @@
               (ngSubmit)="signup(formSignup)"
             >
               <div fxLayout="row" fxLayoutAlign="center">
-                <div class="circular--landscape">
-                  <img
-                    [src]="
-                      uploadedPhoto ||
-                      new_picture ||
-                      'https://ibalz.com/wp-content/uploads/2019/10/default-profile.png'
-                    "
-                  />
-                </div>
+                <img
+                  mat-card-avatar
+                  class="header-image"
+                  [src]="
+                    uploadedPhoto ||
+                    new_picture ||
+                    'https://ibalz.com/wp-content/uploads/2019/10/default-profile.png'
+                  "
+                />
+
                 <input
                   type="file"
                   class="file-input"

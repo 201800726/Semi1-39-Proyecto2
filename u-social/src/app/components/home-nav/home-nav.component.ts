@@ -63,7 +63,7 @@ export class HomeNavComponent {
     this.user.friends = 200;
     this.user.publications = 25;
     this.user.profile_picture =
-      'https://proyecto2-39-semi1.s3.us-east-2.amazonaws.com/profile/stefanyc63972e02-4e13-45cf-9d18-f8dbacd1dc0bundefined';
+      'https://proyecto2-39-semi1.s3.us-east-2.amazonaws.com/profile/stefanyc2854d51e-7fc1-459e-8227-b85c3e94b5f1undefined';
     this.user.bot_mode = true;
     this.user_updated = this.user;
     this.prev_picture = this.user.profile_picture;
