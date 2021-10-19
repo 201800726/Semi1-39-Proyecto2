@@ -10,29 +10,8 @@
   <mat-step label="Publications" state="pubs" [completed]="next">
     <div fxLayout="row" fxLayoutAlign="space-between start">
       <div class="right-side" fxLayout="column" fxLayoutAlign="start">
-        <div class="pub">
-          <app-publication></app-publication>
-        </div>
-        <div class="pub">
-          <app-publication></app-publication>
-        </div>
-        <div class="pub">
-          <app-publication></app-publication>
-        </div>
-        <div class="pub">
-          <app-publication></app-publication>
-        </div>
-        <div class="pub">
-          <app-publication></app-publication>
-        </div>
-        <div class="pub">
-          <app-publication></app-publication>
-        </div>
-        <div class="pub">
-          <app-publication></app-publication>
-        </div>
-        <div class="pub">
-          <app-publication></app-publication>
+        <div class="pub" *ngFor="let publication of publications">
+          <app-publication [publication]="publication"></app-publication>
         </div>
       </div>
       <div fxFlex class="left-side" fxLayout="column" fxLayoutAlign="start">

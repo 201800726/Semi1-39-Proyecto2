@@ -9,6 +9,7 @@
 
 .wall {
   max-width: 600px;
+  min-width: 600px;
   border-width: thin;
   border-style: solid;
   border-color: #90a4ae;

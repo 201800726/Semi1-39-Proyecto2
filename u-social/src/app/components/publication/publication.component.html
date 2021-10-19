@@ -1,35 +1,30 @@
 <mat-card class="wall">
   <mat-card-header>
-    <div
+    <img
       mat-card-avatar
       class="header-image"
-      style="
-        background-image: url('https://proyecto2-39-semi1.s3.us-east-2.amazonaws.com/profile/stefanyc63972e02-4e13-45cf-9d18-f8dbacd1dc0bundefined');
-      "
-    ></div>
-    <mat-card-title> <b>@stefanyc._</b></mat-card-title>
-    <mat-card-subtitle>02/12/21 4:30 pm</mat-card-subtitle>
+      [src]="publication.user_picture"
+    />
+
+    <mat-card-title>
+      <b>@{{ publication.username }}</b></mat-card-title
+    >
+    <mat-card-subtitle>{{ publication.date }}</mat-card-subtitle>
   </mat-card-header>
 
   <mat-card-actions fxLayout="row" fxLayoutAlign="space-evenly">
     <button mat-icon-button disabled></button>
-    <p>
-      The Shiba Inu is the smallest of the six original and distinct spitz
-      breeds of dog from Japan. A small, agile dog that copes very well with
-      mountainous terrain, the Shiba Inu was originally bred for hunting.
+    <p *ngIf="publication.comment">
+      {{ publication.comment }}
     </p>
-    <button mat-icon-button color="accent">
+    <button mat-icon-button color="accent" *ngIf="publication.comment">
       <mat-icon class="icon">translate</mat-icon>
     </button>
     <button mat-icon-button disabled></button>
   </mat-card-actions>
   <mat-card-content fxLayout="column" fxLayoutAlign="center center">
     <div>
-      <img
-        class="image"
-        mat-card-image
-        src="https://www.caracteristicas.co/wp-content/uploads/2017/03/lago-1-e1565747174966.jpg"
-      />
+      <img class="image" mat-card-image [src]="publication.picture" />
     </div>
   </mat-card-content>
 </mat-card>
