@@ -2,10 +2,12 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const app = express();
-
-
-
+const mysql = require('./database/database')
 //config 
+
+const userRouter = require('./routes/user.route')
+const postRouter = require('./routes/post.route')
+const friendshipRouter = require('./routes/friendship.route')
 
 const PORT = process.env.PORT || 3000;
 
@@ -17,10 +19,12 @@ app.use(express.urlencoded({
 }))
 
 //routes 
-
+app.use('/user', userRouter)
+app.use('/post', postRouter)
+app.use('/friend', friendshipRouter)
 
 app.listen(PORT, () => {
-    console.log(`Server on PORT: ${PORT}`)
+    console.log(`Server on port: ${PORT}`)
 })
 
 app.get('/', function (req, res) {
