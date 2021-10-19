@@ -87,14 +87,13 @@
               matInput
               placeholder="Ex. It makes me feel..."
               style="height: 30px"
+              [(ngModel)]="new_publication.comment"
+              name="commentField"
+              #commentField="ngModel"
             ></textarea>
           </mat-form-field>
           <div fxLayout="row" fxLayoutAlign="end">
-            <button
-              mat-stroked-button
-              color="accent"
-              (click)="create_content = true"
-            >
+            <button mat-stroked-button color="accent" (click)="publish()">
               publish
             </button>
           </div>

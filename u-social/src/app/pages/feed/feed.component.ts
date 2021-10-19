@@ -80,6 +80,15 @@ export class FeedComponent implements OnInit {
     //TODO limpiar la publicacion
   }
 
+  publish() {
+    if (this.new_publication.pictureB64) {
+      if (!this.add_comment) this.new_publication.comment = '';
+      console.log(this.new_publication);
+    } else {
+      this.showSnackbar('No picture added :c');
+    }
+  }
+
   selectionChange(event: StepperSelectionEvent) {
     this.stepSelected = event.selectedStep.label;
     switch (this.stepSelected) {
