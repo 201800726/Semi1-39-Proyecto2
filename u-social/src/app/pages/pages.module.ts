@@ -26,6 +26,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatDividerModule } from '@angular/material/divider';
 
 import { PasswordDialogComponent } from '../components/password-dialog/password-dialog.component';
 import { CameraDialogComponent } from '../auth/camera-dialog/camera-dialog.component';
@@ -67,6 +68,7 @@ import { FilterComponent } from '../components/filter/filter.component';
     MatCardModule,
     MatGridListModule,
     MatAutocompleteModule,
+    MatDividerModule,
     FormsModule,
     ReactiveFormsModule,
   ],

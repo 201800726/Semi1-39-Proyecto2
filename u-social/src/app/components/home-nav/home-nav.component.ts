@@ -60,7 +60,7 @@ export class HomeNavComponent {
     if (container !== null) this.user = <UserModel>JSON.parse(container);
     this.user.name = 'María Reneé';
     this.user.username = 'manegra2.0';
-    this.user.friends = 200;
+    this.user.friends = 20;
     this.user.publications = 25;
     this.user.profile_picture =
       'https://proyecto2-39-semi1.s3.us-east-2.amazonaws.com/profile/stefanyc2854d51e-7fc1-459e-8227-b85c3e94b5f1undefined';

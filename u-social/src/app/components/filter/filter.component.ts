@@ -18,7 +18,7 @@ export class FilterComponent {
   filterCtrl = new FormControl();
   filteredfilters: Observable<string[]>;
   filters: string[] = ['All'];
-  allfilters: string[] = ['Summer', 'River', 'Pet', 'Crowd', 'People'];
+  allfilters: string[] = ['All', 'Summer', 'River', 'Pet', 'Crowd', 'People'];
 
   @ViewChild('filterInput') filterInput!: ElementRef<HTMLInputElement>;
 
