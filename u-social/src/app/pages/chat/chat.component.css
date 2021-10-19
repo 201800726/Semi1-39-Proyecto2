@@ -1,0 +1,34 @@
+.right-side {
+  max-height: 600px;
+  padding-left: 10px;
+  padding-right: 15px;
+}
+
+.left-side {
+  overflow: scroll;
+  max-width: 370px;
+  min-width: 370px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.wall {
+  height: 400px;
+}
+
+.container {
+  margin-top: 40px;
+}
+
+.chat {
+  max-height: 100px;
+}
+
+.text {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.full-width {
+  width: 100%;
+}

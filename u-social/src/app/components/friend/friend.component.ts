@@ -8,7 +8,7 @@ import { UserModel } from 'src/models/user.model';
 })
 export class FriendComponent implements OnInit {
   @Input('user') user!: UserModel;
-  @Input('find') find!: boolean;
+  @Input('find') find!: number;
 
   constructor() {}
 

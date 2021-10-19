@@ -8,17 +8,32 @@
     <mat-card-subtitle>{{ user.name }} </mat-card-subtitle>
   </mat-card-header>
   <mat-card-actions>
-    <button mat-stroked-button color="accent" *ngIf="find">
+    <button mat-stroked-button color="accent" *ngIf="find == 0">
       Send friendship request
       <mat-icon class="icon">person_add_alt</mat-icon>
     </button>
-    <button mat-stroked-button color="accent" *ngIf="!find">
+    <button mat-stroked-button color="accent" *ngIf="find == 1">
       Confirm
       <mat-icon class="icon">check</mat-icon>
     </button>
-    <button mat-stroked-button color="accent" *ngIf="!find">
+    <button mat-stroked-button color="accent" *ngIf="find == 1">
       Remove
       <mat-icon class="icon">cancel</mat-icon>
     </button>
+    <div fxLayout="row" fxLayoutAlign="end">
+      <mat-chip-list aria-label="Fish selection" *ngIf="find == 2">
+        <mat-chip color="primary" selected *ngIf="user.bot_mode">
+          <mat-icon class="icon">smart_toy</mat-icon>
+          &nbsp; On</mat-chip
+        >
+        <mat-chip color="info" selected *ngIf="!user.bot_mode">
+          <mat-icon class="icon">smart_toy</mat-icon>
+          &nbsp; Off</mat-chip
+        >
+      </mat-chip-list>
+      <button mat-icon-button color="accent" *ngIf="find == 2">
+        <mat-icon class="icon">sms</mat-icon>
+      </button>
+    </div>
   </mat-card-actions>
 </mat-card>
