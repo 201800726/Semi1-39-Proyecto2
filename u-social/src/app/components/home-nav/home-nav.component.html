@@ -158,7 +158,9 @@
       fxLayout="row"
       fxLayoutAlign="space-between center"
     >
-      <p *ngIf="!(isHandset$ | async)"></p>
+      <p *ngIf="!(isHandset$ | async)" style="margin-top: 10px">
+        <b>U-social</b>
+      </p>
       <button
         type="button"
         aria-label="Toggle sidenav"

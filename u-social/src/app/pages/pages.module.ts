@@ -25,13 +25,14 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import { PasswordDialogComponent } from '../components/password-dialog/password-dialog.component';
 import { CameraDialogComponent } from '../auth/camera-dialog/camera-dialog.component';
 import { FeedComponent } from './feed/feed.component';
 import { ChatComponent } from './chat/chat.component';
 import { PublicationComponent } from '../components/publication/publication.component';
+import { FilterComponent } from '../components/filter/filter.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { PublicationComponent } from '../components/publication/publication.comp
     PasswordDialogComponent,
     FeedComponent,
     ChatComponent,
+    FilterComponent,
   ],
   entryComponents: [PasswordDialogComponent, CameraDialogComponent],
   imports: [
@@ -64,7 +66,7 @@ import { PublicationComponent } from '../components/publication/publication.comp
     MatStepperModule,
     MatCardModule,
     MatGridListModule,
-    MatProgressBarModule,
+    MatAutocompleteModule,
     FormsModule,
     ReactiveFormsModule,
   ],

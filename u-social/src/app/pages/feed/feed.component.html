@@ -9,11 +9,19 @@
   <mat-step label="" state="edge" completed="true" editable="false"> </mat-step>
   <mat-step label="Publications" state="pubs" [completed]="next">
     <div fxLayout="row" fxLayoutAlign="space-between start">
-      <div
-        class="right-side"
-        fxLayout="column"
-        fxLayoutAlign="space-evenly center"
-      >
+      <div class="right-side" fxLayout="column" fxLayoutAlign="start">
+        <div class="pub">
+          <app-publication></app-publication>
+        </div>
+        <div class="pub">
+          <app-publication></app-publication>
+        </div>
+        <div class="pub">
+          <app-publication></app-publication>
+        </div>
+        <div class="pub">
+          <app-publication></app-publication>
+        </div>
         <div class="pub">
           <app-publication></app-publication>
         </div>
@@ -27,8 +35,15 @@
           <app-publication></app-publication>
         </div>
       </div>
-      <div class="left-side">
-        <button mat-stroked-button>Holis</button>
+      <div fxFlex class="left-side" fxLayout="column" fxLayoutAlign="start">
+        <!-- New publication -->
+        <button mat-button color="accent">
+          Create Content
+          <mat-icon class="icon">history_edu</mat-icon>
+        </button>
+        <div></div>
+        <!---->
+        <app-filter></app-filter>
       </div>
     </div>
   </mat-step>
