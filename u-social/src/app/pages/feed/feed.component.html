@@ -108,7 +108,37 @@
     </div>
   </mat-step>
   <mat-step label="Friends" state="friends" [completed]="!next">
-    <p>friends</p>
+    <button mat-button disabled></button>
+    <mat-chip-list
+      aria-label="Fish selection"
+      fxLayout="row"
+      fxLayoutAlign="end"
+    >
+      <mat-chip
+        color="primary"
+        selected
+        (click)="show_requests = !show_requests"
+      >
+        <mat-icon class="icon">
+          {{ show_requests ? "person_search" : "notifications" }}</mat-icon
+        >
+        &nbsp;
+        {{ show_requests ? "Find Friends" : "Friendship Requests" }}</mat-chip
+      >
+      <button mat-icon-button disabled></button>
+    </mat-chip-list>
+
+    <mat-grid-list cols="4" rowHeight="160px" *ngIf="!show_requests">
+      <mat-grid-tile *ngFor="let user of users">
+        <app-friend [user]="user" [find]="true"></app-friend>
+      </mat-grid-tile>
+    </mat-grid-list>
+
+    <mat-grid-list cols="4" rowHeight="160px" *ngIf="show_requests">
+      <mat-grid-tile *ngFor="let request of friendship_requests">
+        <app-friend [user]="request" [find]="false"></app-friend>
+      </mat-grid-tile>
+    </mat-grid-list>
   </mat-step>
   <mat-step label="" state="edge" completed="true" editable="false"> </mat-step>
 

@@ -27,6 +27,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatBadgeModule } from '@angular/material/badge';
 
 import { PasswordDialogComponent } from '../components/password-dialog/password-dialog.component';
 import { CameraDialogComponent } from '../auth/camera-dialog/camera-dialog.component';
@@ -34,6 +35,7 @@ import { FeedComponent } from './feed/feed.component';
 import { ChatComponent } from './chat/chat.component';
 import { PublicationComponent } from '../components/publication/publication.component';
 import { FilterComponent } from '../components/filter/filter.component';
+import { FriendComponent } from '../components/friend/friend.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,7 @@ import { FilterComponent } from '../components/filter/filter.component';
     PasswordDialogComponent,
     FeedComponent,
     ChatComponent,
+    FriendComponent,
     FilterComponent,
   ],
   entryComponents: [PasswordDialogComponent, CameraDialogComponent],
@@ -69,6 +72,7 @@ import { FilterComponent } from '../components/filter/filter.component';
     MatGridListModule,
     MatAutocompleteModule,
     MatDividerModule,
+    MatBadgeModule,
     FormsModule,
     ReactiveFormsModule,
   ],

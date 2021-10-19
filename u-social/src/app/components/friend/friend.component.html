@@ -1,0 +1,24 @@
+<mat-card class="wall">
+  <mat-card-header>
+    <img mat-card-avatar class="header-image" [src]="user.profile_picture" />
+
+    <mat-card-title>
+      <b>@{{ user.username }}</b></mat-card-title
+    >
+    <mat-card-subtitle>{{ user.name }} </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-actions>
+    <button mat-stroked-button color="accent" *ngIf="find">
+      Send friendship request
+      <mat-icon class="icon">person_add_alt</mat-icon>
+    </button>
+    <button mat-stroked-button color="accent" *ngIf="!find">
+      Confirm
+      <mat-icon class="icon">check</mat-icon>
+    </button>
+    <button mat-stroked-button color="accent" *ngIf="!find">
+      Remove
+      <mat-icon class="icon">cancel</mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>
