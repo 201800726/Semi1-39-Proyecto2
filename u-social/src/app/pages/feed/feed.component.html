@@ -130,13 +130,21 @@
 
     <mat-grid-list cols="4" rowHeight="160px" *ngIf="!show_requests">
       <mat-grid-tile *ngFor="let user of users">
-        <app-friend [user]="user" [find]="0"></app-friend>
+        <app-friend
+          [user]="user"
+          [find]="0"
+          (friend)="sendFriendshipRequest($event)"
+        ></app-friend>
       </mat-grid-tile>
     </mat-grid-list>
 
     <mat-grid-list cols="4" rowHeight="160px" *ngIf="show_requests">
       <mat-grid-tile *ngFor="let request of friendship_requests">
-        <app-friend [user]="request" [find]="1"></app-friend>
+        <app-friend
+          [user]="request"
+          [find]="1"
+          (request)="responseFriendshipRequest($event)"
+        ></app-friend>
       </mat-grid-tile>
     </mat-grid-list>
   </mat-step>

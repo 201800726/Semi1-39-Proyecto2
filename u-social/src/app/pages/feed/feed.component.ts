@@ -118,6 +118,16 @@ export class FeedComponent implements OnInit {
     }
   }
 
+  sendFriendshipRequest(user: UserModel) {
+    //TODO service to send friendship requests
+    console.log(user);
+  }
+
+  responseFriendshipRequest(answer: any) {
+    //TODO service to answer friendship requests
+    console.log(answer);
+  }
+
   selectionChange(event: StepperSelectionEvent) {
     this.stepSelected = event.selectedStep.label;
     switch (this.stepSelected) {

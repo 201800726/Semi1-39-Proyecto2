@@ -14,6 +14,8 @@
 
 .wall {
   height: 400px;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .container {
@@ -31,4 +33,9 @@
 
 .full-width {
   width: 100%;
+}
+
+.message {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }

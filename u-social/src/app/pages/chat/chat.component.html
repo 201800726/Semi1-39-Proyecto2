@@ -15,8 +15,32 @@
         <mat-card-subtitle>Mona lisa </mat-card-subtitle>
       </mat-card-header>
       <mat-divider></mat-divider>
-      <mat-card-content class="wall">
-        <p></p>
+      <mat-card-content class="wall full-width">
+        <div fxFlex fxLayout="column" fxLayoutAlign="start">
+          <div *ngFor="let day of conversation">
+            <p class="message" fxLayout="row" fxLayoutAlign="center">
+              - {{ day.date }} -
+            </p>
+            <div class="message" *ngFor="let message of day.messages">
+              <div fxLayout="row" fxLayoutAlign="start">
+                <mat-chip-list *ngIf="message.emmiter == 1">
+                  <mat-chip>{{ message.message }} </mat-chip>
+                  <mat-hint>{{ message.time }}</mat-hint>
+                </mat-chip-list>
+              </div>
+              <div
+                fxLayout="row"
+                fxLayoutAlign="end"
+                *ngIf="message.emmiter == 2"
+              >
+                <mat-chip-list>
+                  <mat-hint>{{ message.time }}</mat-hint>
+                  <mat-chip>{{ message.message }}</mat-chip>
+                </mat-chip-list>
+              </div>
+            </div>
+          </div>
+        </div>
       </mat-card-content>
       <mat-divider></mat-divider>
       <button mat-button color="accent" disabled></button>
@@ -28,11 +52,23 @@
             [style.fontSize.px]="15"
             class="full-width"
           >
-            <input matInput placeholder="Hi! O/ ..." autocomplete="off" />
+            <input
+              matInput
+              placeholder="Hi! O/ ..."
+              autocomplete="off"
+              [(ngModel)]="new_message.message"
+              name="messageField"
+              #messageField="ngModel"
+            />
           </mat-form-field>
         </div>
 
-        <button mat-icon-button color="accent" style="margin-top: 10px">
+        <button
+          mat-icon-button
+          color="accent"
+          style="margin-top: 10px"
+          (click)="sendMessage()"
+        >
           <mat-icon class="icon">send</mat-icon>
         </button>
         <button mat-icon-button color="accent" disabled></button>
@@ -42,7 +78,11 @@
   <div class="left-side" fxLayout="column" fxLayoutAlign="start">
     <h1><b>Friends</b></h1>
     <div *ngFor="let friend of friends" style="margin-bottom: 10px">
-      <app-friend [user]="friend" [find]="2"></app-friend>
+      <app-friend
+        [user]="friend"
+        [find]="2"
+        (friend)="showChat($event)"
+      ></app-friend>
     </div>
   </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UserModel } from 'src/models/user.model';
 
 @Component({
@@ -9,8 +9,24 @@ import { UserModel } from 'src/models/user.model';
 export class FriendComponent implements OnInit {
   @Input('user') user!: UserModel;
   @Input('find') find!: number;
+  @Output('friend') friend: EventEmitter<UserModel>;
+  @Output('request') request: EventEmitter<any>;
 
-  constructor() {}
+  constructor() {
+    this.friend = new EventEmitter<UserModel>();
+    this.request = new EventEmitter<any>();
+  }
 
   ngOnInit(): void {}
+
+  public response(status: boolean) {
+    const request_answer = {
+      user: this.user,
+      response: status,
+    };
+    this.request.emit(request_answer);
+  }
+  public show(): void {
+    this.friend.emit(this.user);
+  }
 }

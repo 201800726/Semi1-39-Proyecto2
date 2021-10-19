@@ -8,15 +8,31 @@
     <mat-card-subtitle>{{ user.name }} </mat-card-subtitle>
   </mat-card-header>
   <mat-card-actions>
-    <button mat-stroked-button color="accent" *ngIf="find == 0">
+    <button
+      mat-stroked-button
+      color="accent"
+      *ngIf="find == 0"
+      (click)="show()"
+    >
       Send friendship request
       <mat-icon class="icon">person_add_alt</mat-icon>
     </button>
-    <button mat-stroked-button color="accent" *ngIf="find == 1">
+    <button
+      mat-stroked-button
+      color="accent"
+      *ngIf="find == 1"
+      (click)="response(true)"
+    >
       Confirm
       <mat-icon class="icon">check</mat-icon>
     </button>
-    <button mat-stroked-button color="accent" *ngIf="find == 1">
+
+    <button
+      mat-stroked-button
+      color="accent"
+      *ngIf="find == 1"
+      (click)="response(false)"
+    >
       Remove
       <mat-icon class="icon">cancel</mat-icon>
     </button>
@@ -31,7 +47,7 @@
           &nbsp; Off</mat-chip
         >
       </mat-chip-list>
-      <button mat-icon-button color="accent" *ngIf="find == 2">
+      <button mat-icon-button color="accent" *ngIf="find == 2" (click)="show()">
         <mat-icon class="icon">sms</mat-icon>
       </button>
     </div>
