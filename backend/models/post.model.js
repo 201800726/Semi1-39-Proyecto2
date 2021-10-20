@@ -18,7 +18,7 @@ const postModel = {
         return this.executeQuery(query, callback)
     }, 
 
-    createLabel(label, post){  // crear etiquetas
+    createLabel(label, post){    // crear etiquetas
         let query = `INSERT INTO ETIQUETA (etiqueta, publicacion) VALUES ('${label}', ${post})`
         db.query(query, (err, res) => {
             if(err){
@@ -29,7 +29,7 @@ const postModel = {
         })
     }, 
 
-    filter(params, callback){ // filtrar por lista de etiquetas
+    filter(params, callback){   // filtrar por lista de etiquetas
         let labels = params.labels
         let stringL = ''
 
@@ -52,8 +52,20 @@ const postModel = {
         return this.executeQuery(query, callback)
     }, 
 
-    getLabels( callback){ // traer etiquetas 
+    getLabels(callback){ // traer etiquetas 
         let query = `SELECT DISTINCT etiqueta FROM ETIQUETA`
+
+        return this.executeQuery(query, callback)
+    }, 
+
+    getPost(params, callback){  // traer las publicaciones de amigos
+        const {
+            username 
+        } = params
+
+        let query = `SELECT p.* FROM PUBLICACION p, USUARIO u
+        INNER JOIN AMISTAD a ON a.usuario = u.username OR a.amigo = u.username
+        WHERE u.username != '${username}' AND a.estado = 1 AND p.usuario = u.username; `
 
         return this.executeQuery(query, callback)
     }

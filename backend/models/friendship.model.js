@@ -24,7 +24,7 @@ const friendshipModel = {
         } = params; 
 
         let query = `SELECT a.usuario AS username FROM AMISTAD a
-        WHERE amigo =  '${username}' AND estado = 1 ; `
+        WHERE amigo =  '${username}' AND estado = 0 ; `
 
         return this.executeQuery(query, callback)
     }, 
@@ -36,7 +36,7 @@ const friendshipModel = {
         } = params;
 
         let query = `UPDATE AMISTAD
-        SET estado = 2 
+        SET estado = 1
         WHERE usuario = ${username} AND amigo = '${friend}'`
         
         return this.executeQuery(query, callback)
