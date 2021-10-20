@@ -6,6 +6,7 @@ const app = express();
 const userRouter = require("./routes/user.route");
 const postRouter = require("./routes/post.route");
 const friendshipRouter = require("./routes/friendship.route");
+const messagesRouter = require("./routes/message.route");
 
 //config
 const PORT = process.env.PORT || 3000;
@@ -28,6 +29,7 @@ app.use(
 app.use("/user", userRouter);
 app.use("/post", postRouter);
 app.use("/friend", friendshipRouter);
+app.use("/message", messagesRouter);
 
 app.listen(PORT, () => {
   console.log(`Server on port: ${PORT}`);

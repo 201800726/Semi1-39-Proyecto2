@@ -91,11 +91,12 @@ export class ChatComponent implements OnInit {
     this.new_message.time =
       this._datepipe.transform(new Date(), 'hh:mm ', 'en-us')?.toString() +
       format;
-    console.log(this.new_message, this.user.name);
+    console.log(this.new_message, this.user.username, this.friend.username);
     //TODO send info to socket
   }
 
   showChat(friend: UserModel) {
+    this.friend = friend;
     //TODO open friend's chat
     //TODO map data to conversation format
     console.log(friend);
