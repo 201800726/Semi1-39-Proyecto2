@@ -18,7 +18,7 @@ const friendshipModel = {
         return this.executeQuery(query, callback)
     }, 
 
-    getRequest(params, callback){
+    getRequests(params, callback){
         const {
             username
         } = params; 
@@ -44,12 +44,12 @@ const friendshipModel = {
 
     delete(params, callback){
         const {
-            username, 
+            user, 
             friend
         } = params;
 
         let query = `DELETE FROM USUARIO 
-        WHERE usuario = ${username} AND amigo = '${friend}'`
+        WHERE usuario = ${user} AND amigo = '${friend}'`
         
         return this.executeQuery(query, callback)
     }, 
@@ -68,7 +68,7 @@ const friendshipModel = {
         return this.executeQuery(query, callback)
     }, 
 
-    getNoFriend(params, callback){
+    getNoFriends(params, callback){
         const {
             username
         } = params; 

@@ -3,7 +3,12 @@ const express = require('express')
 const router = express.Router()
 
 
-router.post('/sendRequest', friendshipController.sendFriendRequest);
+router.put('/', friendshipController.update)
 router.post('/create', friendshipController.create);
+router.delete('/:user/:friend', friendshipController.delete)
+router.get('/getFriends/:username', friendshipController.getFriends)
+router.get('/getRequests/:username', friendshipController.getRequests)
+router.get('/getNoFriends/:username', friendshipController.getNoFriends)
+
 
 module.exports = router;

@@ -118,10 +118,57 @@ const userController = {
 
     },
 
+    getCount: (req, res) => {
+        userModel.getCount(req.params, (err, result) => {
+            if (err) {
+                res.status(500).send({
+                    code: '500',
+                    data: err
+                });
+                return
+            }
+
+            res.status(200).send({
+                code: '200',
+                data: result
+            });
+        });
+    },
+
+    getPhoto: (req, res) => {
+        userModel.getPhoto(req.params, (err, result) => {
+            if (err) {
+                res.status(500).send({
+                    code: '500',
+                    data: err
+                });
+                return
+            }
+
+            res.status(200).send({
+                code: '200',
+                data: result
+            });
+        });
+    }, 
+
     update: (req, res) => {
-        
+        userModel.update(req.body, (err, result) => {
+            if (err) {
+                res.status(500).send({
+                    code: '500',
+                    data: err
+                });
+                return
+            }
+
+            res.status(200).send({
+                code: '200',
+                data: result
+            });
+        });
     }
 
- }
+}
 
 module.exports = userController
