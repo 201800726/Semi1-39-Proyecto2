@@ -31,7 +31,7 @@ app.use("/post", postRouter);
 app.use("/friend", friendshipRouter);
 app.use("/message", messagesRouter);
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server on port: ${PORT}`);
 });
 
@@ -42,5 +42,19 @@ app.get("/", function (req, res) {
     "Integrantes 1": "Maria Reneé Juaréz Albizures - 201800726",
     "Integrante 2": "Stefany Samantha Abigail Coromac Huezo - 201801182",
     "# Pareja": "39",
+  });
+});
+
+/* SOCKETS */
+const db = require("./database/database");
+const SocketIO = require("socket.io");
+const io = SocketIO(server);
+
+io.on("connection", (socket) => {
+  console.log(`a wild ${socket.id} just arrived`);
+
+  socket.on("message:received", (data) => {
+    //io.sockets.emit("message:send", info); // TODO query for info
+    console.log(data);
   });
 });
