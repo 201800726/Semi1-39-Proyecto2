@@ -48,13 +48,27 @@ app.get("/", function (req, res) {
 /* SOCKETS */
 const db = require("./database/database");
 const SocketIO = require("socket.io");
-const io = SocketIO(server);
+const io = SocketIO(server, {
+  cors: {
+    origin: true,
+    credentials: true,
+    methods: ["GET", "POST"],
+  },
+});
 
 io.on("connection", (socket) => {
   console.log(`a wild ${socket.id} just arrived`);
 
-  socket.on("message:received", (data) => {
-    //io.sockets.emit("message:send", info); // TODO query for info
-    console.log(data);
+  socket.on("message:client", (data) => {
+    const query = `insert into MENSAJE(message,date,time,emisor,receptor)
+    values ('${data.message}','${data.date}','${data.time}','${data.emisor}','${data.receptor}');`;
+
+    db.query(query, (err, res) => {
+      if (err) {
+        console.log(err);
+      }
+    });
+    console.log(query);
+    io.sockets.emit("message:server", "Mensajes");
   });
 });

@@ -17,7 +17,7 @@
       <mat-divider></mat-divider>
       <mat-card-content class="wall full-width">
         <div fxFlex fxLayout="column" fxLayoutAlign="start">
-          <div *ngFor="let day of conversation">
+          <div *ngFor="let day of _chatService.conversation">
             <p class="message" fxLayout="row" fxLayoutAlign="center">
               - {{ day.date }} -
             </p>
