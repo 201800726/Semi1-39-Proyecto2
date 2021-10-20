@@ -1,0 +1,10 @@
+insert into USUARIO
+values ('el_jarrito','Harry Styles','https://studiosol-a.akamaihd.net/uploadfile/letras/fotos/e/f/8/a/ef8a0cb94166d9830af93aad8092fbe5.jpg',1);
+insert into USUARIO
+values ('niallitobb','Niall Horan','https://img.discogs.com/4r2qdSYOuNgbD2Hh711sL-tUHGI=/fit-in/300x300/filters:strip_icc():format(jpeg):mode_rgb():quality(40)/discogs-images/A-2508413-1577525104-4123.jpeg.jpg');
+insert into USUARIO
+values ('tommo_l','Louis Tomlinson','https://pbs.twimg.com/profile_images/1167116488035262472/IthDWGne.jpg');
+insert into USUARIO
+values ('liamcito_p','Liam Payne','https://www.nacionrex.com/__export/1623350370142/sites/debate/img/2021/06/10/one-direction-liam-payne-quitarse-la-vida_1_crop1623350354615.jpg_1902800913.jpg',1);
+insert into USUARIO
+values ('z_malik','Zayne Malik','https://fashion.hola.com/imagenes/tendencias/2020031269179/zayn-malik-modelo-joyas-anwar-hadid/0-298-591/zayn-a.jpg');
