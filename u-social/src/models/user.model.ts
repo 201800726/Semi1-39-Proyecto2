@@ -8,6 +8,6 @@ export class UserModel {
     public password?: string,
     public publications?: number,
     public friends?: number,
-    public bot_mode?: true
+    public bot_mode?: boolean
   ) {}
 }

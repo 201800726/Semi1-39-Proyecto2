@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { WebcamModule } from 'ngx-webcam';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -50,6 +51,7 @@ import { FriendComponent } from '../components/friend/friend.component';
   ],
   entryComponents: [PasswordDialogComponent, CameraDialogComponent],
   imports: [
+    HttpClientModule,
     FlexLayoutModule,
     CommonModule,
     RouterModule,
