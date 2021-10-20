@@ -1,5 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ChatService } from 'src/app/services/chat.service';
 import { FriendshipService } from 'src/app/services/friendship.service';
 import { DayModel } from 'src/models/day.model';
 import { MessageModel } from 'src/models/message.model';
@@ -22,43 +24,15 @@ export class ChatComponent implements OnInit {
 
   constructor(
     private _datepipe: DatePipe,
-    private _friendshipService: FriendshipService
+    private _friendshipService: FriendshipService,
+    private _chatService: ChatService,
+    private _snackBar: MatSnackBar
   ) {
     this.friend = new UserModel();
     this.user = new UserModel();
     this.new_message = new MessageModel();
     this.friends = [];
-
-    this.conversation = [
-      {
-        messages: [
-          {
-            message: 'Hi! o/ how are u?',
-            date: '25/10/21',
-            time: '4:30 pm',
-            emmiter: 1,
-          },
-          {
-            message: "I'm fine c: what about you?",
-            date: '25/10/21',
-            time: '4:35 pm',
-            emmiter: 2,
-          },
-        ],
-        date: '25/10/21',
-      },
-      {
-        messages: [
-          {
-            message: "That's cool, I'm also doing good.",
-            date: '26/10/21',
-            time: '1:00 pm',
-            emmiter: 1,
-          },
-        ],
-        date: '26/10/21',
-      },
-    ];
+    this.conversation = [];
   }
 
   async ngOnInit(): Promise<void> {
@@ -95,10 +69,42 @@ export class ChatComponent implements OnInit {
     //TODO send info to socket
   }
 
-  showChat(friend: UserModel) {
+  async showChat(friend: UserModel) {
+    this.conversation = [];
     this.friend = friend;
-    //TODO open friend's chat
-    //TODO map data to conversation format
-    console.log(friend);
+    const dayholder: DayModel = new DayModel([]);
+    try {
+      const data = await this._chatService.getMessages(
+        this.user.username || '',
+        this.friend.username || ''
+      );
+      if (data['code'] === '200') {
+        let date = '';
+        data['data'].forEach((message: MessageModel) => {
+          message.emmiter = 1;
+          if (message.emisor === this.user.username) message.emmiter = 2;
+          if (date != message.date) {
+            const day: DayModel = new DayModel([]);
+            date = message.date || '';
+            day.date = message.date;
+            this.conversation.push(day);
+          }
+          const index = this.conversation.indexOf(
+            this.conversation.find((day) => day.date == message.date) ||
+              dayholder
+          );
+          this.conversation[index].messages?.push(message);
+        });
+      } else {
+        this.showSnackbar("Couldn't get any messages :C");
+      }
+    } catch (error) {
+      this.showSnackbar('Something went wrong :o');
+      console.log(error);
+    }
+  }
+
+  showSnackbar(message: string) {
+    this._snackBar.open(message, 'CLOSE', { duration: 3000 });
   }
 }

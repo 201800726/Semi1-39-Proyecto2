@@ -3,6 +3,7 @@ export class MessageModel {
     public message?: string,
     public time?: string,
     public date?: string,
-    public emmiter?: number
+    public emmiter?: number,
+    public emisor?: string
   ) {}
 }

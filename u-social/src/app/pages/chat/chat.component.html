@@ -1,18 +1,18 @@
 <div fxLayout="row" fxLayoutAlign="space-between start" class="container">
   <div fxFlex class="right-side" fxLayout="column" fxLayoutAlign="start">
     <h1><b>Messages</b></h1>
-    <mat-card>
+    <mat-card *ngIf="friend.username">
       <mat-card-header>
         <img
           mat-card-avatar
           class="header-image"
-          [src]="
-            'https://www.neurosciencemarketing.com/wp-content/uploads/2016/08/mona-lisa.jpg'
-          "
+          [src]="friend.profile_picture"
         />
 
-        <mat-card-title> <b>@lalisa </b></mat-card-title>
-        <mat-card-subtitle>Mona lisa </mat-card-subtitle>
+        <mat-card-title>
+          <b>@ {{ friend.username }} </b></mat-card-title
+        >
+        <mat-card-subtitle> {{ friend.name }} </mat-card-subtitle>
       </mat-card-header>
       <mat-divider></mat-divider>
       <mat-card-content class="wall full-width">
