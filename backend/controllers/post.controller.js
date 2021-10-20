@@ -50,7 +50,19 @@ const postController = {
     }, 
 
     filter: (req, res) => {
-        
+        postModel.filter(req.body, (err, result) => {
+            if(err){
+                res.status(500).send({
+                    code: '500', 
+                    data: err
+                })
+                return 
+            }
+            res.status(200).send({
+                code: '200', 
+                data: result
+            })
+        })
     }
 }
 
