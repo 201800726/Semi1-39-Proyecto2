@@ -15,6 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CameraDialogComponent } from 'src/app/auth/camera-dialog/camera-dialog.component';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-home-nav',
@@ -43,7 +44,8 @@ export class HomeNavComponent {
     public dialog: MatDialog,
     private _snackBar: MatSnackBar,
     private _router: Router,
-    public fb: FormBuilder
+    public fb: FormBuilder,
+    private _userService: UserService
   ) {
     this.user = new UserModel();
     this.user_updated = new UserModel();
@@ -55,13 +57,24 @@ export class HomeNavComponent {
     });
   }
 
-  ngOnInit() {
+  async ngOnInit(): Promise<void> {
     const container = localStorage.getItem('user');
     if (container !== null) this.user = <UserModel>JSON.parse(container);
-    this.user.friends = 20;
-    this.user.publications = 25;
+    this.getCounters();
     this.user_updated = this.user;
     this.prev_picture = this.user.profile_picture;
+  }
+
+  private async getCounters() {
+    try {
+      const data = await this._userService.getCounters(
+        this.user.username || ''
+      );
+      if (data['code'] === '200') {
+        this.user.friends = data['data']['friends'];
+        this.user.posts = data['data']['posts'];
+      }
+    } catch (error) {}
   }
 
   logOut() {

@@ -58,4 +58,10 @@ export class UserService {
       )
       .toPromise();
   }
+
+  public async getCounters(username: string): Promise<any> {
+    return await this._httpClient
+      .get(`${this.url}/counters/${username}`)
+      .toPromise();
+  }
 }
