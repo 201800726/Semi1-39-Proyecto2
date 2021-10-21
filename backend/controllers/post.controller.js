@@ -63,7 +63,41 @@ const postController = {
                 data: result
             })
         })
-    }
+    }, 
+
+    getLabels: (req, res) => {
+        postModel.getLabels((err, result) => {
+            if (err) {
+                res.status(500).send({
+                    code: '500',
+                    data: err
+                });
+                return
+            }
+
+            res.status(200).send({
+                code: '200',
+                data: result
+            });
+        });
+    },
+
+    getPost: (req, res) => {
+        postModel.getPost(req.params, (err, result) => {
+            if (err) {
+                res.status(500).send({
+                    code: '500',
+                    data: err
+                });
+                return
+            }
+
+            res.status(200).send({
+                code: '200',
+                data: result
+            });
+        });
+    },
 }
 
 module.exports = postController;
