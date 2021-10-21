@@ -27,8 +27,7 @@ export class HomeNavComponent {
   public user_updated: UserModel;
 
   public editing: boolean;
-  public new_picture: string;
-  public prev_picture: string | undefined;
+  public new_picture64: string;
 
   public myForm: FormGroup;
 
@@ -50,8 +49,7 @@ export class HomeNavComponent {
     this.user = new UserModel();
     this.user_updated = new UserModel();
     this.editing = false;
-    this.new_picture = '';
-    this.prev_picture = '';
+    this.new_picture64 = '';
     this.myForm = this.fb.group({
       img: [null],
     });
@@ -61,10 +59,6 @@ export class HomeNavComponent {
     const container = localStorage.getItem('user');
     if (container !== null) this.user = <UserModel>JSON.parse(container);
     this.getCounters();
-    this.user.picture_url =
-      'https://proyecto2-39-semi1.s3.us-east-2.amazonaws.com/';
-    this.user_updated = this.user;
-    this.prev_picture = this.user.profile_picture;
   }
 
   private async getCounters() {
@@ -84,31 +78,49 @@ export class HomeNavComponent {
     this._router.navigate(['/login']);
   }
 
-  updateUser() {
+  public edit() {
+    this.editing = true;
+    this.user_updated = new UserModel();
+    this.user_updated.username = this.user.username;
+    this.user_updated.profile_picture =
+      'https://proyecto2-39-semi1.s3.us-east-2.amazonaws.com/' +
+      this.user.profile_picture;
+    this.user_updated.name = this.user.name;
+    this.user_updated.bot_mode = this.user.bot_mode;
+  }
+
+  public cancel() {
+    this.editing = false;
+    this.new_picture64 = '';
+    this.user_updated.profile_picture =
+      'https://proyecto2-39-semi1.s3.us-east-2.amazonaws.com/' +
+      this.user.profile_picture;
+  }
+
+  public updateUser() {
     const dialogRef = this.dialog.open(PasswordDialogComponent, {});
 
     dialogRef.afterClosed().subscribe(async (result) => {
       if (result) {
         try {
           const md5 = new Md5();
-          this.user.password = '' + md5.appendStr(result).end();
-          console.log(this.user_updated, this.prev_picture, this.new_picture);
+          this.user_updated.password = '' + md5.appendStr(result).end();
           const update = await this._userService.update(
             this.user_updated,
-            this.prev_picture,
-            this.new_picture
+            this.user.profile_picture,
+            this.new_picture64
           );
-          this.editing = false;
-          this.user = this.user_updated;
-          this.prev_picture = this.user.profile_picture;
 
-          const data = await this._userService.recognitionSinging(
-            this.user.username || ''
-          );
-          this.user = data['data'];
-          this.user.picture_url =
-            'https://proyecto2-39-semi1.s3.us-east-2.amazonaws.com/';
-          localStorage.setItem('user', JSON.stringify(this.user));
+          if (update['code'] === '200') {
+            this.editing = false;
+            const data = await this._userService.recognitionSinging(
+              this.user.username || ''
+            );
+            this.user = data['data'];
+            localStorage.setItem('user', JSON.stringify(this.user));
+            this.getCounters();
+            this.showSnackbar('Updated succesfully c:');
+          }
         } catch (error: any) {
           if (error['error']['data']['name'] === 'NotAuthorizedException')
             this.showSnackbar('Incorrect password.');
@@ -119,14 +131,7 @@ export class HomeNavComponent {
     });
   }
 
-  cancel() {
-    this.editing = false;
-    this.user.profile_picture = this.prev_picture;
-    this.user.picture_url =
-      'https://proyecto2-39-semi1.s3.us-east-2.amazonaws.com/';
-  }
   openDialogCamera() {
-    //TODO Menu
     const dialogRef = this.dialog.open(CameraDialogComponent, {
       data: {
         image: '',
@@ -136,9 +141,8 @@ export class HomeNavComponent {
 
     dialogRef.afterClosed().subscribe(async (result) => {
       if (result) {
-        this.new_picture = result.imageAsBase64;
+        this.new_picture64 = result.imageAsBase64;
         this.user_updated.profile_picture = result.imageAsDataUrl;
-        this.user.picture_url = '';
       }
     });
   }
@@ -162,7 +166,6 @@ export class HomeNavComponent {
           const reader = new FileReader();
           reader.onload = () => {
             this.user_updated.profile_picture = reader.result as string;
-            this.user.picture_url = '';
           };
           reader.readAsDataURL(file);
         }
@@ -176,7 +179,7 @@ export class HomeNavComponent {
     const reader = new FileReader();
     reader.onload = (e: any) => {
       const base64 = e.target.result;
-      this.new_picture = base64.split(',')[1];
+      this.new_picture64 = base64.split(',')[1];
     };
     reader.readAsDataURL(photo);
   }

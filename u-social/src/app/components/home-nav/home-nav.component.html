@@ -14,7 +14,11 @@
           <img
             mat-card-avatar
             class="header-image"
-            [src]="user.picture_url + user.profile_picture"
+            [src]="
+              user_updated.profile_picture ||
+              'https://proyecto2-39-semi1.s3.us-east-2.amazonaws.com/' +
+                user.profile_picture
+            "
           />
         </div>
 
@@ -30,10 +34,7 @@
             >
           </mat-chip-list>
           <button mat-icon-button type="button" color="accent">
-            <mat-icon
-              class="icon"
-              (click)="editing = true"
-              matTooltip="Edit profile"
+            <mat-icon class="icon" (click)="edit()" matTooltip="Edit profile"
               >edit</mat-icon
             >
           </button>
