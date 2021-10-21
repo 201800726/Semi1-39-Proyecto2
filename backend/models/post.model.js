@@ -45,19 +45,23 @@ const postModel = {
             }
         }
         
-        let query = `SELECT DISTINCT a.idPublicacion AS idPost, a.fecha AS date, a.texto AS texto, 
-        a.imagen AS image, a.usuario AS user FROM 
-        (
-            SELECT  p.* FROM PUBLICACION p
-            INNER JOIN USUARIO u ON u.username = p.usuario
-            INNER JOIN AMISTAD a ON a.usuario = u.username OR a.amigo = u.username
-            WHERE a.usuario = '${username}' OR a.amigo = '${username}' AND a.estado = 1
-        )a, 
+        let query = `SELECT b.idPublicacion AS idPost, b.fecha AS date, b.texto AS text, b.imagen AS image, b.usuario AS user FROM 
+        (SELECT p.* FROM PUBLICACION p
+        INNER JOIN ((select username from USUARIO u, AMISTAD a
+                    where a.usuario = '${username}' and a.amigo = u.username and a.estado = 1)
+                    UNION
+                    (select username from USUARIO u, AMISTAD a
+                    where a.usuario = u.username and a.amigo = '${username}'  and a.estado = 1)) a ON a.username = p.usuario 
+        UNION 
+        SELECT p.* FROM PUBLICACION p 
+        WHERE p.usuario = '${username}'
+        )b, 
         (
             SELECT distinct publicacion FROM ETIQUETA 
             WHERE ${stringL}
-        )b
-        WHERE b.publicacion = a.idPublicacion; `
+        )c
+        WHERE c.publicacion = b.idPublicacion
+        ORDER BY b.fecha DESC  `
 
         return this.executeQuery(query, callback)
     }, 
@@ -73,7 +77,7 @@ const postModel = {
             username 
         } = params
 
-        let query = `SELECT b.* FROM 
+        let query = `SELECT b.idPublicacion AS idPost, b.fecha AS date, b.texto AS text, b.imagen AS image, b.usuario AS user FROM 
         (SELECT p.* FROM PUBLICACION p
         INNER JOIN ((select username from USUARIO u, AMISTAD a
                     where a.usuario = '${username}' and a.amigo = u.username and a.estado = 1)
