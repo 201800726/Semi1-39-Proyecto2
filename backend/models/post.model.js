@@ -73,12 +73,18 @@ const postModel = {
             username 
         } = params
 
-        let query = `SELECT DISTINCT p.idPublicacion AS idPost, p.fecha AS date, 
-        p.texto AS text, p.imagen AS image, p.usuario AS user FROM PUBLICACION p
-        INNER JOIN USUARIO u ON u.username = p.usuario
-        INNER JOIN AMISTAD a ON a.usuario = u.username OR a.amigo = u.username
-        WHERE a.usuario = '${username}' OR a.amigo = '${username}' AND a.estado = 1
-        ORDER BY p.fecha DESC`
+        let query = `SELECT b.* FROM 
+        (SELECT p.* FROM PUBLICACION p
+        INNER JOIN ((select username from USUARIO u, AMISTAD a
+                    where a.usuario = '${username}' and a.amigo = u.username and a.estado = 1)
+                    UNION
+                    (select username from USUARIO u, AMISTAD a
+                    where a.usuario = u.username and a.amigo = '${username}'  and a.estado = 1)) a ON a.username = p.usuario 
+        UNION 
+        SELECT p.* FROM PUBLICACION p 
+        WHERE p.usuario = '${username}'
+        )b
+        ORDER BY b.fecha DESC; `
 
         return this.executeQuery(query, callback)
     }

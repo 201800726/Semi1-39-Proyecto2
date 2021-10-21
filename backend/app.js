@@ -28,7 +28,7 @@ app.use(
 //routes
 app.use("/user", userRouter);
 app.use("/post", postRouter);
-app.use("/friend", friendshipRouter);
+app.use("/friends", friendshipRouter);
 app.use("/message", messagesRouter);
 
 const server = app.listen(PORT, () => {
