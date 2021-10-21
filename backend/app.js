@@ -2,7 +2,6 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const app = express();
-const mysql = require('./database/database')
 //config 
 
 const userRouter = require('./routes/user.route')
@@ -21,7 +20,7 @@ app.use(express.urlencoded({
 //routes 
 app.use('/user', userRouter)
 app.use('/post', postRouter)
-app.use('/friend', friendshipRouter)
+app.use('/friends', friendshipRouter)
 
 app.listen(PORT, () => {
     console.log(`Server on port: ${PORT}`)

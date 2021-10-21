@@ -7,9 +7,9 @@ const s3Service = {
     uploadPhoto(req, folder) {
         let ruta  
         if(folder == 'profile'){  // profile
-            ruta = `profile/${req.username}${uuidv4()}${req.extension}`
+            ruta = `profile/${req.username}-${uuidv4()}${req.extension}`
         }else{  // post 
-            ruta = `posts/${uuidv4()}${req.extension}`
+            ruta = `posts/post-${uuidv4()}${req.extension}`
         }
         let buffer = new Buffer.from(req.image, 'base64');
         req.image = ruta
@@ -23,8 +23,23 @@ const s3Service = {
         }; 
 
         S3.putObject(params).promise();
+        console.log()
         return req
     }, 
+    
+    delete(url) {
+        const params = {
+            Bucket: 'proyecto2-39-semi1',
+            Key: url
+        }
+        S3.deleteObject(params, function(err, data){
+            if(err){
+                console.log('Delete failed - S3')
+                return
+            }
+            console.log('Deleted Successfully')
+        })
+    }
 }
 
 module.exports = s3Service

@@ -45,7 +45,8 @@ const postModel = {
             }
         }
         
-        let query = `SELECT a.*  FROM 
+        let query = `SELECT DISTINCT a.idPublicacion AS idPost, a.fecha AS date, a.texto AS texto, 
+        a.imagen AS image, a.usuario AS user FROM 
         (
             SELECT  p.* FROM PUBLICACION p
             INNER JOIN USUARIO u ON u.username = p.usuario
@@ -62,17 +63,18 @@ const postModel = {
     }, 
 
     getLabels(callback){ // traer etiquetas 
-        let query = `SELECT DISTINCT etiqueta FROM ETIQUETA`
+        let query = `SELECT DISTINCT etiqueta AS label FROM ETIQUETA`
 
         return this.executeQuery(query, callback)
     }, 
 
-    getPost(params, callback){  // traer las publicaciones de amigos
+    getPost(params, callback){  // traer todas las publicaciones
         const {
             username 
         } = params
 
-        let query = `SELECT DISTINCT p.* FROM PUBLICACION p
+        let query = `SELECT DISTINCT p.idPublicacion AS idPost, p.fecha AS date, 
+        p.texto AS text, p.imagen AS image, p.usuario AS user FROM PUBLICACION p
         INNER JOIN USUARIO u ON u.username = p.usuario
         INNER JOIN AMISTAD a ON a.usuario = u.username OR a.amigo = u.username
         WHERE a.usuario = '${username}' OR a.amigo = '${username}' AND a.estado = 1

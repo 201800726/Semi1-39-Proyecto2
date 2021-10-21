@@ -9,10 +9,21 @@ const userModel = {
         const {
             username, 
             name,
-            profile_picture 
+            image 
         } = params
 
-        let query = `INSERT INTO USUARIO (username, nombre, foto, modoBot) VALUES ('${username}', '${name}', '${profile_picture}', false)`
+        let query = `INSERT INTO USUARIO (username, nombre, foto, modoBot) VALUES ('${username}', '${name}', '${image}', false)`
+
+        return this.executeQuery(query, callback)
+    },
+
+    login(params, callback){
+        const {
+            username
+        } = params; 
+
+        let query =  `SELECT username, foto AS profile_picture, modoBot AS bot_mode, nombre AS name 
+        FROM USUARIO WHERE username = '${username}'`; 
 
         return this.executeQuery(query, callback)
     },
@@ -48,15 +59,14 @@ const userModel = {
 
     update(params, callback){  // actualizar
         const {
-            new_username, 
             username, 
             name, 
-            profile_picture, 
+            image, 
             bot_mode
         } = params; 
 
         let query = `UPDATE USUARIO 
-        SET username = '${new_username}', nombre = '${name}' , foto = '${profile_picture}', modoBot = ${bot_mode}
+        SET  nombre = '${name}' , foto = '${image}', modoBot = ${bot_mode}
         WHERE username = '${username}'`
 
         return this.executeQuery(query, callback)

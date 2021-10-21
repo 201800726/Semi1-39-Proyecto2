@@ -54,7 +54,7 @@ const friendshipController = {
     },
 
     delete: (req, res) => {
-        friendshipModel.delete(req.params, (err, result) => {
+        friendshipModel.delete(req.body, (err, result) => {
             if (err) {
                 res.status(500).send({
                     code: '500',

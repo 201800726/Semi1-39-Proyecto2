@@ -53,8 +53,6 @@ const userController = {
 
         let hash = crypto.createHash('sha256').update(req.body.password).digest('hex');
 
-        console.log(attributeList)
-
         cognito.signUp(req.body.username, `${hash}D**`, attributeList, null, async (err, data) => {
             if (err) {
                 res.status(500).send({
@@ -75,7 +73,8 @@ const userController = {
 
                     res.status(200).send({
                         code: '200',
-                        data: result
+                        data: result,
+                        message: 'Your account has been created successfully'
                     })
                 })
             }
@@ -101,11 +100,19 @@ const userController = {
 
         cognitoUser.authenticateUser(authenticationDetails, {
             onSuccess: function (result) {
-                res.status(200).send({
-                    code: '200',
-                    data: result
+                userModel.login(req.body, (err, result) => {
+                    if (err) {
+                        res.status(500).send({
+                            code: '500',
+                            data: err
+                        });
+                        return
+                    }
+                    res.status(200).send({
+                        code: '200',
+                        data: result
+                    })
                 })
-                return
             },
             onFailure: function (err) {
                 res.status(500).send({
@@ -115,12 +122,9 @@ const userController = {
                 return
             }
         });
-
-
     },
 
     updateCognito: (req, res) => {
-        console.log('Hola')
         let hash = crypto.createHash('sha256').update(req.body.password).digest('hex')
         let authentication = {
             Username: req.body.username,
@@ -142,28 +146,38 @@ const userController = {
                 var accessToken = result.getAccessToken().getJwtToken();
                 AWS.config.region = 'us-east-2'
                 var cognitoIdentity = new AWS.CognitoIdentityServiceProvider()
-
+                s3Service.delete(req.body.route)
+                req.body = s3Service.uploadPhoto(req.body, 'profile')
                 var params = {
                     AccessToken: accessToken,
                     UserAttributes: [
                         {
                             Name: 'name',
-                            Value: 'editadp'
+                            Value: req.body.name
                         },
-
+                        {
+                            Name: 'picture',
+                            Value: req.body.image
+                        },
+                        {
+                            Name: 'custom:modoBot',
+                            Value: `${req.body.bot_mode}`
+                        }
                     ]
                 };
+                
                 cognitoIdentity.updateUserAttributes(params, function (err, data) {
                     if (err) {
+                        console.log(err)
                         res.status(500).send({
                             code: '500',
                             data: err
                         });
                         return
                     }
-                    console.log(data)
                     userModel.update(req.body, (err, result) => {
                         if (err) {
+                            console.log(err)
                             res.status(500).send({
                                 code: '500',
                                 data: err
@@ -175,10 +189,11 @@ const userController = {
                             code: '200',
                             data: result
                         });
-                    });  
+                    });
                 });
             },
             onFailure: function (err) {
+                console.log(err)
                 res.status(500).send({
                     code: '500',
                     data: err
