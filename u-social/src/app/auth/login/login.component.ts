@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { CameraDialogComponent } from '../camera-dialog/camera-dialog.component';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -40,7 +41,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private _snackBar: MatSnackBar,
     public mediaObserver: MediaObserver,
     public fb: FormBuilder,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private _userService: UserService
   ) {
     this.hide = true;
     this.mediaSub = null;
@@ -70,8 +72,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.mediaSub.unsubscribe();
   }
 
-  showSnackbar(message: string) {
-    this._snackBar.open(message, 'CLOSE', { duration: 3000 });
+  showSnackbar(message: string = 'Something went wrong :c') {
+    this._snackBar.open(message, 'CLOSE', { duration: 5000 });
   }
 
   public async signin(Form: NgForm): Promise<void> {
@@ -79,18 +81,42 @@ export class LoginComponent implements OnInit, OnDestroy {
       const md5 = new Md5();
       this.user.password = '' + md5.appendStr(this.password).end();
       if (this.normal_login) {
-        //TODO service normal login
+        const data = await this._userService.normalSignin(this.user);
+        if (data['code'] === '200') {
+          this.user = data['data'][0];
+          localStorage.setItem('user', JSON.stringify(this.user));
+          this._router.navigate(['/home/feed']);
+        }
       } else {
-        if (!this.new_user.profile_picture)
+        if (!this.new_user.profile_picture) {
           this.showSnackbar('You need a photo to login!');
-        //TODO get profile_picture from user
-        //TODO send profile_picture and new picture(new_user.profile_picture) to apigatway with lambda
-        localStorage.setItem('user', JSON.stringify(this.user));
-        this._router.navigate(['/home']);
+        } else {
+          const data = await this._userService.recognitionSinging(
+            this.user.username || ''
+          );
+          if (data['data']) {
+            this.user = data['data'];
+            const similarity = await this._userService.facialRecognition(
+              this.user.profile_picture || '',
+              this.new_user.profile_picture
+            );
+            if (similarity > 90) {
+              localStorage.setItem('user', JSON.stringify(this.user));
+              this._router.navigate(['/home/feed']);
+            } else {
+              this.showSnackbar('No matches :c');
+            }
+          } else {
+            this.showSnackbar('User not found :c');
+          }
+        }
       }
-    } catch (error) {
+    } catch (error: any) {
       Form.resetForm();
-      this.showSnackbar('Incorrect username or password.');
+      if (error['error']['data']['name'] === 'NotAuthorizedException')
+        this.showSnackbar('Incorrect username or password.');
+      if (error['error']['data']['name'] === 'UserNotConfirmedException')
+        this.showSnackbar('Mail addres not confirmed :c');
     }
   }
 
@@ -142,11 +168,23 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.showSnackbar('Profile picture required :o');
         throw new Error();
       }
-      console.log(this.new_user);
-      this.new_user = new UserModel();
-      this.showSnackbar('Now you have an account, Signin! c:');
-      Form.resetForm();
-    } catch (error) {}
+      const md5 = new Md5();
+      this.new_user.password = '' + md5.appendStr(this.new_password).end();
+      const data = await this._userService.signup(this.new_user);
+      if (data['code'] === '200') {
+        this.uploadedPhoto = '';
+        this.new_picture = '';
+        this.new_user = new UserModel();
+        this.showSnackbar(
+          "Now you have an account, we've send you an email to confirm! c:"
+        );
+        Form.resetForm();
+      } else {
+        this.showSnackbar();
+      }
+    } catch (error) {
+      this.showSnackbar();
+    }
   }
 
   openDialogCamera() {

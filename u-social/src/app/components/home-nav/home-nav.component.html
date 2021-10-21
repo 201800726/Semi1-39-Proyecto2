@@ -14,7 +14,11 @@
           <img
             mat-card-avatar
             class="header-image"
-            [src]="user.profile_picture"
+            [src]="
+              user_updated.profile_picture ||
+              'https://proyecto2-39-semi1.s3.us-east-2.amazonaws.com/' +
+                user.profile_picture
+            "
           />
         </div>
 
@@ -30,10 +34,7 @@
             >
           </mat-chip-list>
           <button mat-icon-button type="button" color="accent">
-            <mat-icon
-              class="icon"
-              (click)="editing = true"
-              matTooltip="Edit profile"
+            <mat-icon class="icon" (click)="edit()" matTooltip="Edit profile"
               >edit</mat-icon
             >
           </button>
@@ -88,7 +89,7 @@
             <span class="spacer-details"> &nbsp; </span>
             <mat-icon class="icon user-details">view_quilt</mat-icon>
             <span class="spacer-details"> &nbsp; </span>
-            <span>{{ user.publications }} publications </span>
+            <span>{{ user.posts }} posts </span>
           </div>
         </div>
         <!--------------->
@@ -102,15 +103,6 @@
               [(ngModel)]="user_updated.name"
               name="nameField"
               #nameField="ngModel"
-            />
-          </mat-form-field>
-          <mat-form-field appearance="outline">
-            <mat-label>Username</mat-label>
-            <input
-              matInput
-              [(ngModel)]="user_updated.username"
-              name="userField"
-              #userField="ngModel"
             />
           </mat-form-field>
           <div fxLayout="row" fxLayoutAlign="space-evenly">

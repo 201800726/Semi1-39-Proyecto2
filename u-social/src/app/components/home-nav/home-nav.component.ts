@@ -15,6 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CameraDialogComponent } from 'src/app/auth/camera-dialog/camera-dialog.component';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-home-nav',
@@ -26,8 +27,7 @@ export class HomeNavComponent {
   public user_updated: UserModel;
 
   public editing: boolean;
-  public new_picture: string;
-  public prev_picture: string | undefined;
+  public new_picture64: string;
 
   public myForm: FormGroup;
 
@@ -43,31 +43,34 @@ export class HomeNavComponent {
     public dialog: MatDialog,
     private _snackBar: MatSnackBar,
     private _router: Router,
-    public fb: FormBuilder
+    public fb: FormBuilder,
+    private _userService: UserService
   ) {
     this.user = new UserModel();
     this.user_updated = new UserModel();
     this.editing = false;
-    this.new_picture = '';
-    this.prev_picture = '';
+    this.new_picture64 = '';
     this.myForm = this.fb.group({
       img: [null],
     });
   }
 
-  ngOnInit() {
+  async ngOnInit(): Promise<void> {
     const container = localStorage.getItem('user');
     if (container !== null) this.user = <UserModel>JSON.parse(container);
-    this.user.name = 'Niall Horan';
-    this.user.username = 'niallitobb';
-    this.user.friends = 20;
-    this.user.publications = 25;
-    this.user.profile_picture =
-      'https://img.discogs.com/4r2qdSYOuNgbD2Hh711sL-tUHGI=/fit-in/300x300/filters:strip_icc():format(jpeg):mode_rgb():quality(40)/discogs-images/A-2508413-1577525104-4123.jpeg.jpg';
-    this.user.bot_mode = false;
-    localStorage.setItem('user', JSON.stringify(this.user)); //TODO remove this
-    this.user_updated = this.user;
-    this.prev_picture = this.user.profile_picture;
+    this.getCounters();
+  }
+
+  private async getCounters() {
+    try {
+      const data = await this._userService.getCounters(
+        this.user.username || ''
+      );
+      if (data['code'] === '200') {
+        this.user.friends = data['data']['friends'];
+        this.user.posts = data['data']['posts'];
+      }
+    } catch (error) {}
   }
 
   logOut() {
@@ -75,23 +78,52 @@ export class HomeNavComponent {
     this._router.navigate(['/login']);
   }
 
-  updateUser() {
-    console.log(this.user_updated);
+  public edit() {
+    this.editing = true;
+    this.user_updated = new UserModel();
+    this.user_updated.username = this.user.username;
+    this.user_updated.profile_picture =
+      'https://proyecto2-39-semi1.s3.us-east-2.amazonaws.com/' +
+      this.user.profile_picture;
+    this.user_updated.name = this.user.name;
+    this.user_updated.bot_mode = this.user.bot_mode;
+  }
+
+  public cancel() {
+    this.editing = false;
+    this.new_picture64 = '';
+    this.user_updated.profile_picture =
+      'https://proyecto2-39-semi1.s3.us-east-2.amazonaws.com/' +
+      this.user.profile_picture;
+  }
+
+  public updateUser() {
     const dialogRef = this.dialog.open(PasswordDialogComponent, {});
 
     dialogRef.afterClosed().subscribe(async (result) => {
       if (result) {
-        const md5 = new Md5();
-        this.user.password = '' + md5.appendStr(result).end();
-        if (true) {
-          //TODO service for update user photo (new_picture base 64)
-          console.log(this.user.password);
-          this.editing = false;
-          this.user = this.user_updated;
-          this.prev_picture = this.user.profile_picture;
-          localStorage.setItem('user', JSON.stringify(this.user));
-        } else {
-          this.showSnackbar('Incorrect password :c');
+        try {
+          const md5 = new Md5();
+          this.user_updated.password = '' + md5.appendStr(result).end();
+          const update = await this._userService.update(
+            this.user_updated,
+            this.user.profile_picture,
+            this.new_picture64
+          );
+
+          if (update['code'] === '200') {
+            this.editing = false;
+            const data = await this._userService.recognitionSinging(
+              this.user.username || ''
+            );
+            this.user = data['data'];
+            localStorage.setItem('user', JSON.stringify(this.user));
+            this.getCounters();
+            this.showSnackbar('Updated succesfully c:');
+          }
+        } catch (error: any) {
+          if (error['error']['data']['name'] === 'NotAuthorizedException')
+            this.showSnackbar('Incorrect password.');
         }
       } else {
         this.showSnackbar('Password required :c');
@@ -99,12 +131,7 @@ export class HomeNavComponent {
     });
   }
 
-  cancel() {
-    this.editing = false;
-    this.user.profile_picture = this.prev_picture;
-  }
   openDialogCamera() {
-    //TODO Menu
     const dialogRef = this.dialog.open(CameraDialogComponent, {
       data: {
         image: '',
@@ -114,7 +141,7 @@ export class HomeNavComponent {
 
     dialogRef.afterClosed().subscribe(async (result) => {
       if (result) {
-        this.new_picture = result.imageAsBase64;
+        this.new_picture64 = result.imageAsBase64;
         this.user_updated.profile_picture = result.imageAsDataUrl;
       }
     });
@@ -152,7 +179,7 @@ export class HomeNavComponent {
     const reader = new FileReader();
     reader.onload = (e: any) => {
       const base64 = e.target.result;
-      this.new_picture = base64.split(',')[1];
+      this.new_picture64 = base64.split(',')[1];
     };
     reader.readAsDataURL(photo);
   }

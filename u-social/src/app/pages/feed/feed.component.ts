@@ -47,28 +47,8 @@ export class FeedComponent implements OnInit {
     this.add_comment = false;
     this.new_publication = new PublicationModel();
     this.show_requests = false;
-    this.friendship_requests = [
-      {
-        profile_picture:
-          'https://studiosol-a.akamaihd.net/uploadfile/letras/fotos/e/f/8/a/ef8a0cb94166d9830af93aad8092fbe5.jpg',
-        username: 'jarrito',
-        name: 'Harry Styles',
-      },
-    ];
-    this.users = [
-      {
-        profile_picture:
-          'https://us.hola.com/imagenes/es/salud-y-belleza/2019111829683/sofia-carson-belleza-maquillaje-cabello-vv/0-214-665/sofia-carson-belleza-maquillaje-cabello-vv-m.jpg?filter=w400',
-        username: 'sofisC',
-        name: 'Sofia Carson',
-      },
-      {
-        profile_picture:
-          'https://upload.wikimedia.org/wikipedia/commons/d/df/Sabrina_Carpenter_2019.jpg',
-        username: 'sabrinaC',
-        name: 'Sabrina Carpenter',
-      },
-    ];
+    this.friendship_requests = [];
+    this.users = [];
     this.myForm = this.fb.group({
       img: [null],
     });

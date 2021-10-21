@@ -51,7 +51,6 @@ export class CameraDialogComponent implements OnInit {
     this.showWebcam = false;
     this.data.image = webcamImage;
     this.data.url = webcamImage.imageAsDataUrl;
-    console.log(webcamImage.imageAsDataUrl);
   }
 
   retry() {
