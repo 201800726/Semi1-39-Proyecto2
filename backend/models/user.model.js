@@ -28,15 +28,15 @@ const userModel = {
         return this.executeQuery(query, callback)
     },
 
-    getCount(params, callback) {  // contador de publicaciones y amigos
+    getCounters(params, callback) {  // contador de publicaciones y amigos
         const {
             username
         } = params
 
-        let query = `SELECT COUNT(p.idPublicacion) AS counts FROM PUBLICACION p
+        let query = `SELECT COUNT(p.idPublicacion) AS counter FROM PUBLICACION p
         WHERE p.usuario = '${username}'
         UNION
-        SELECT COUNT(a.username) AS friends FROM (
+        SELECT COUNT(a.username) AS counter FROM (
         (SELECT username FROM USUARIO u, AMISTAD a
         WHERE a.usuario = '${username}' AND a.amigo = u.username AND a.estado = 1)
          UNION

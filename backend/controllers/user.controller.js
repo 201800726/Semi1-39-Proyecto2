@@ -204,8 +204,8 @@ const userController = {
 
     },
 
-    getCount: (req, res) => {
-        userModel.getCount(req.params, (err, result) => {
+    getCounters: (req, res) => {
+        userModel.getCounters(req.params, (err, result) => {
             if (err) {
                 res.status(500).send({
                     code: '500',
@@ -214,9 +214,14 @@ const userController = {
                 return
             }
 
+            let data = {
+                posts: result[0].counter, 
+                friends: result[1].counter
+            }
+
             res.status(200).send({
                 code: '200',
-                data: result
+                data: data
             });
         });
     },

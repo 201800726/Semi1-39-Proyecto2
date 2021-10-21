@@ -7,6 +7,6 @@ router.put('/', userController.updateCognito)
 router.post('/register', userController.register); 
 router.post('/login', userController.login); 
 router.get('/photo', userController.getPhoto)
-router.get('/counts', userController.getCount)
+router.get('/counters/:username', userController.getCounters)
 
 module.exports = router; 
