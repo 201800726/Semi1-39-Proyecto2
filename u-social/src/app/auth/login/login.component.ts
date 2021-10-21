@@ -81,18 +81,29 @@ export class LoginComponent implements OnInit, OnDestroy {
       const md5 = new Md5();
       this.user.password = '' + md5.appendStr(this.password).end();
       if (this.normal_login) {
-        //TODO service normal login
+        const data = await this._userService.normalSignin(this.user);
+        if (data['code'] === '200') {
+          this.user = data['data'][0];
+          this.user.profile_picture =
+            'https://proyecto2-39-semi1.s3.us-east-2.amazonaws.com/' +
+            this.user.profile_picture;
+          localStorage.setItem('user', JSON.stringify(this.user));
+          this._router.navigate(['/home/feed']);
+        }
       } else {
         if (!this.new_user.profile_picture)
           this.showSnackbar('You need a photo to login!');
         //TODO get profile_picture from user
         //TODO send profile_picture and new picture(new_user.profile_picture) to apigatway with lambda
         localStorage.setItem('user', JSON.stringify(this.user));
-        this._router.navigate(['/home']);
+        this._router.navigate(['/home/feed']);
       }
-    } catch (error) {
+    } catch (error: any) {
       Form.resetForm();
-      this.showSnackbar('Incorrect username or password.');
+      if (error['error']['data']['name'] === 'NotAuthorizedException')
+        this.showSnackbar('Incorrect username or password.');
+      if (error['error']['data']['name'] === 'UserNotConfirmedException')
+        this.showSnackbar('Mail addres not confirmed :c');
     }
   }
 

@@ -57,15 +57,11 @@ export class HomeNavComponent {
 
   ngOnInit() {
     const container = localStorage.getItem('user');
+    console.log(container);
     if (container !== null) this.user = <UserModel>JSON.parse(container);
-    this.user.name = 'Niall Horan';
-    this.user.username = 'niallitobb';
+    console.log(this.user);
     this.user.friends = 20;
     this.user.publications = 25;
-    this.user.profile_picture =
-      'https://img.discogs.com/4r2qdSYOuNgbD2Hh711sL-tUHGI=/fit-in/300x300/filters:strip_icc():format(jpeg):mode_rgb():quality(40)/discogs-images/A-2508413-1577525104-4123.jpeg.jpg';
-    this.user.bot_mode = false;
-    localStorage.setItem('user', JSON.stringify(this.user)); //TODO remove this
     this.user_updated = this.user;
     this.prev_picture = this.user.profile_picture;
   }

@@ -27,4 +27,12 @@ export class UserService {
       .post(`${this.url}/register`, json, { headers })
       .toPromise();
   }
+
+  public async normalSignin(user: UserModel): Promise<any> {
+    const json = JSON.stringify(user);
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return await this._httpClient
+      .post(`${this.url}/login`, json, { headers })
+      .toPromise();
+  }
 }
