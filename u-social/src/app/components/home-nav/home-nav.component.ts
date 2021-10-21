@@ -61,6 +61,8 @@ export class HomeNavComponent {
     const container = localStorage.getItem('user');
     if (container !== null) this.user = <UserModel>JSON.parse(container);
     this.getCounters();
+    this.user.picture_url =
+      'https://proyecto2-39-semi1.s3.us-east-2.amazonaws.com/';
     this.user_updated = this.user;
     this.prev_picture = this.user.profile_picture;
   }
@@ -83,22 +85,33 @@ export class HomeNavComponent {
   }
 
   updateUser() {
-    console.log(this.user_updated);
     const dialogRef = this.dialog.open(PasswordDialogComponent, {});
 
     dialogRef.afterClosed().subscribe(async (result) => {
       if (result) {
-        const md5 = new Md5();
-        this.user.password = '' + md5.appendStr(result).end();
-        if (true) {
-          //TODO service for update user photo (new_picture base 64)
-          console.log(this.user.password);
+        try {
+          const md5 = new Md5();
+          this.user.password = '' + md5.appendStr(result).end();
+          console.log(this.user_updated, this.prev_picture, this.new_picture);
+          const update = await this._userService.update(
+            this.user_updated,
+            this.prev_picture,
+            this.new_picture
+          );
           this.editing = false;
           this.user = this.user_updated;
           this.prev_picture = this.user.profile_picture;
+
+          const data = await this._userService.recognitionSinging(
+            this.user.username || ''
+          );
+          this.user = data['data'];
+          this.user.picture_url =
+            'https://proyecto2-39-semi1.s3.us-east-2.amazonaws.com/';
           localStorage.setItem('user', JSON.stringify(this.user));
-        } else {
-          this.showSnackbar('Incorrect password :c');
+        } catch (error: any) {
+          if (error['error']['data']['name'] === 'NotAuthorizedException')
+            this.showSnackbar('Incorrect password.');
         }
       } else {
         this.showSnackbar('Password required :c');
@@ -109,6 +122,8 @@ export class HomeNavComponent {
   cancel() {
     this.editing = false;
     this.user.profile_picture = this.prev_picture;
+    this.user.picture_url =
+      'https://proyecto2-39-semi1.s3.us-east-2.amazonaws.com/';
   }
   openDialogCamera() {
     //TODO Menu
@@ -123,6 +138,7 @@ export class HomeNavComponent {
       if (result) {
         this.new_picture = result.imageAsBase64;
         this.user_updated.profile_picture = result.imageAsDataUrl;
+        this.user.picture_url = '';
       }
     });
   }
@@ -146,6 +162,7 @@ export class HomeNavComponent {
           const reader = new FileReader();
           reader.onload = () => {
             this.user_updated.profile_picture = reader.result as string;
+            this.user.picture_url = '';
           };
           reader.readAsDataURL(file);
         }

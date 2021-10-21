@@ -64,4 +64,24 @@ export class UserService {
       .get(`${this.url}/counters/${username}`)
       .toPromise();
   }
+
+  public async update(
+    user: UserModel,
+    prev_image: string = '',
+    new_image: string = ''
+  ): Promise<any> {
+    const body = {
+      username: user.username,
+      password: user.password,
+      name: user.name,
+      image: new_image,
+      route: prev_image,
+      bot_mode: user.bot_mode ? 1 : 0,
+    };
+    const json = JSON.stringify(body);
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return await this._httpClient
+      .put(`${this.url}/`, json, { headers })
+      .toPromise();
+  }
 }

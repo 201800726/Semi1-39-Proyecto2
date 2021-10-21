@@ -84,9 +84,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         const data = await this._userService.normalSignin(this.user);
         if (data['code'] === '200') {
           this.user = data['data'][0];
-          this.user.profile_picture =
-            'https://proyecto2-39-semi1.s3.us-east-2.amazonaws.com/' +
-            this.user.profile_picture;
           localStorage.setItem('user', JSON.stringify(this.user));
           this._router.navigate(['/home/feed']);
         }
@@ -104,9 +101,6 @@ export class LoginComponent implements OnInit, OnDestroy {
               this.new_user.profile_picture
             );
             if (similarity > 90) {
-              this.user.profile_picture =
-                'https://proyecto2-39-semi1.s3.us-east-2.amazonaws.com/' +
-                this.user.profile_picture;
               localStorage.setItem('user', JSON.stringify(this.user));
               this._router.navigate(['/home/feed']);
             } else {

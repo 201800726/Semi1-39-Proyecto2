@@ -14,7 +14,7 @@
           <img
             mat-card-avatar
             class="header-image"
-            [src]="user.profile_picture"
+            [src]="user.picture_url + user.profile_picture"
           />
         </div>
 
@@ -102,15 +102,6 @@
               [(ngModel)]="user_updated.name"
               name="nameField"
               #nameField="ngModel"
-            />
-          </mat-form-field>
-          <mat-form-field appearance="outline">
-            <mat-label>Username</mat-label>
-            <input
-              matInput
-              [(ngModel)]="user_updated.username"
-              name="userField"
-              #userField="ngModel"
             />
           </mat-form-field>
           <div fxLayout="row" fxLayoutAlign="space-evenly">
