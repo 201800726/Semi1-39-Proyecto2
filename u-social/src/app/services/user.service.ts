@@ -35,4 +35,27 @@ export class UserService {
       .post(`${this.url}/login`, json, { headers })
       .toPromise();
   }
+
+  public async recognitionSinging(username: string): Promise<any> {
+    return await this._httpClient
+      .get(`${this.url}/photo/${username}`)
+      .toPromise();
+  }
+
+  public async facialRecognition(image1: string, image2: string): Promise<any> {
+    const body = {
+      image1: image1,
+      image2: image2,
+      similarity: 0,
+    };
+    const json = JSON.stringify(body);
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return await this._httpClient
+      .post(
+        `https://8fqx01vu7k.execute-api.us-east-2.amazonaws.com/login`,
+        json,
+        { headers }
+      )
+      .toPromise();
+  }
 }

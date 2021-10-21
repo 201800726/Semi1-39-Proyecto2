@@ -91,12 +91,31 @@ export class LoginComponent implements OnInit, OnDestroy {
           this._router.navigate(['/home/feed']);
         }
       } else {
-        if (!this.new_user.profile_picture)
+        if (!this.new_user.profile_picture) {
           this.showSnackbar('You need a photo to login!');
-        //TODO get profile_picture from user
-        //TODO send profile_picture and new picture(new_user.profile_picture) to apigatway with lambda
-        localStorage.setItem('user', JSON.stringify(this.user));
-        this._router.navigate(['/home/feed']);
+        } else {
+          const data = await this._userService.recognitionSinging(
+            this.user.username || ''
+          );
+          if (data['data']) {
+            this.user = data['data'];
+            const similarity = await this._userService.facialRecognition(
+              this.user.profile_picture || '',
+              this.new_user.profile_picture
+            );
+            if (similarity > 90) {
+              this.user.profile_picture =
+                'https://proyecto2-39-semi1.s3.us-east-2.amazonaws.com/' +
+                this.user.profile_picture;
+              localStorage.setItem('user', JSON.stringify(this.user));
+              this._router.navigate(['/home/feed']);
+            } else {
+              this.showSnackbar('No matches :c');
+            }
+          } else {
+            this.showSnackbar('User not found :c');
+          }
+        }
       }
     } catch (error: any) {
       Form.resetForm();

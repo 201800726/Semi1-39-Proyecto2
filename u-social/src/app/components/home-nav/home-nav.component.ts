@@ -57,9 +57,7 @@ export class HomeNavComponent {
 
   ngOnInit() {
     const container = localStorage.getItem('user');
-    console.log(container);
     if (container !== null) this.user = <UserModel>JSON.parse(container);
-    console.log(this.user);
     this.user.friends = 20;
     this.user.publications = 25;
     this.user_updated = this.user;
