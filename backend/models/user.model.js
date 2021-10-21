@@ -9,10 +9,10 @@ const userModel = {
         const {
             username, 
             name,
-            image 
+            profile_picture 
         } = params
 
-        let query = `INSERT INTO USUARIO (username, nombre, foto) VALUES ('${username}', '${name}', '${image}')`
+        let query = `INSERT INTO USUARIO (username, nombre, foto, modoBot) VALUES ('${username}', '${name}', '${profile_picture}', false)`
 
         return this.executeQuery(query, callback)
     },
@@ -56,7 +56,7 @@ const userModel = {
         } = params; 
 
         let query = `UPDATE USUARIO 
-        SET username = '${new_username}', nombre = ''${name}' , foto = '${profile_picture}' modoBot = ${bot_mode}
+        SET username = '${new_username}', nombre = '${name}' , foto = '${profile_picture}', modoBot = ${bot_mode}
         WHERE username = '${username}'`
 
         return this.executeQuery(query, callback)

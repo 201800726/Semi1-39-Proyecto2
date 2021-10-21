@@ -29,8 +29,11 @@ const postModel = {
         })
     }, 
 
-    filter(params, callback){   // filtrar por lista de etiquetas
-        let labels = params.labels
+    filter(params, callback){   // filtrar por lista de etiquetas   
+        const {
+            labels, 
+            username
+        } = params
         let stringL = ''
 
         for(let i = 0; i < labels.length; i++){
@@ -42,12 +45,18 @@ const postModel = {
             }
         }
         
-        let query = `SELECT p.* FROM PUBLICACION p, 
+        let query = `SELECT a.*  FROM 
+        (
+            SELECT  p.* FROM PUBLICACION p
+            INNER JOIN USUARIO u ON u.username = p.usuario
+            INNER JOIN AMISTAD a ON a.usuario = u.username OR a.amigo = u.username
+            WHERE a.usuario = '${username}' OR a.amigo = '${username}' AND a.estado = 1
+        )a, 
         (
             SELECT distinct publicacion FROM ETIQUETA 
             WHERE ${stringL}
-        ) a
-        WHERE a.publicacion = p.idPublicacion `
+        )b
+        WHERE b.publicacion = a.idPublicacion; `
 
         return this.executeQuery(query, callback)
     }, 
@@ -63,9 +72,11 @@ const postModel = {
             username 
         } = params
 
-        let query = `SELECT p.* FROM PUBLICACION p, USUARIO u
+        let query = `SELECT DISTINCT p.* FROM PUBLICACION p
+        INNER JOIN USUARIO u ON u.username = p.usuario
         INNER JOIN AMISTAD a ON a.usuario = u.username OR a.amigo = u.username
-        WHERE u.username != '${username}' AND a.estado = 1 AND p.usuario = u.username; `
+        WHERE a.usuario = '${username}' OR a.amigo = '${username}' AND a.estado = 1
+        ORDER BY p.fecha DESC`
 
         return this.executeQuery(query, callback)
     }
