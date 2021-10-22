@@ -10,12 +10,16 @@
   <mat-step label="Publications" state="pubs" [completed]="next">
     <div fxLayout="row" fxLayoutAlign="space-between start">
       <div class="right-side" fxLayout="column" fxLayoutAlign="start">
+        <div class="info" *ngIf="posts.length == 0">
+          <p class="face">(>.<)</p>
+          <p class="text">No posts found</p>
+        </div>
         <div class="pub" *ngFor="let post of posts">
           <app-publication [post]="post"></app-publication>
         </div>
       </div>
       <div fxFlex class="left-side" fxLayout="column" fxLayoutAlign="start">
-        <!-- New publication -->
+        <!-- New Post -->
         <button
           mat-button
           color="accent"
@@ -27,7 +31,7 @@
         </button>
         <div *ngIf="create_content">
           <div fxLayout="row" fxLayoutAlign="space-between">
-            <h2><b>New Publication</b></h2>
+            <h2><b>New Post</b></h2>
 
             <div>
               <button

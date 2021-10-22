@@ -56,39 +56,26 @@ export class FeedComponent implements OnInit {
     this.new_publication = new PostModel();
     this.show_requests = false;
     this.friendship_requests = [];
+    this.posts = [];
     this.users = [];
     this.myForm = this.fb.group({
       img: [null],
     });
-    this.posts = [
-      {
-        user_picture:
-          'https://ps.w.org/metronet-profile-picture/assets/icon-256x256.png?rev=2464419',
-        username: 'fulanita',
-        date: '03/08/20 3:15 pm',
-        picture:
-          'https://sites.google.com/site/ilvoloenclase/_/rsrc/1479493717600/home/CuUTkb1WcAA5JOS.jpg',
-        comment:
-          'Il Volo è un gruppo musicale italiano composto da due tenori e un baritono: Piero Barone (Naro, 24 giugno 1993), Ignazio Boschetto (Bologna, 4 ottobre 1994) e Gianluca Ginoble (Roseto degli Abruzzi, 11 febbraio 1995).',
-      },
-      {
-        user_picture:
-          'https://d1hbpr09pwz0sk.cloudfront.net/profile_pic/camille-ricketts-4793e5f1',
-        username: 'menganito',
-        date: '04/08/20 5:25 pm',
-        picture:
-          'https://wp-growpro.s3-eu-west-1.amazonaws.com/media/2019/02/Que-ver-en-Los-Angeles.jpg',
-        comment:
-          'Los Angeles lies in a basin in Southern California, adjacent to the Pacific Ocean, with mountains as high as 10,000 feet (3,000 m), and deserts. The city, which covers about 469 square miles (1,210 km2), is the seat of Los Angeles County, the most populous county in the United States.',
-      },
-    ];
   }
 
   private async getPosts() {
     try {
       const data = await this._postService.getPosts(this.user.username);
       if (data['code'] === '200') {
-        console.log(data['data']);
+        data['data'].forEach((element: any) => {
+          const post = new PostModel();
+          post.user_picture = element.profile_picture;
+          post.date = new Date(element.date).toLocaleString('en-us');
+          post.username = element.user;
+          post.comment = element.text;
+          post.picture = element.image;
+          this.posts.push(post);
+        });
       }
     } catch (error) {}
   }

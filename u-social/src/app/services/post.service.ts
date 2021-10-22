@@ -14,4 +14,15 @@ export class PostService {
   public async getPosts(username: string = ''): Promise<any> {
     return await this._httpClient.get(`${this.url}/${username}`).toPromise();
   }
+
+  public async translatePost(comment: string = ''): Promise<any> {
+    const body = {
+      text: comment,
+    };
+    const json = JSON.stringify(body);
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return await this._httpClient
+      .post(`${this.url}/translate`, json, { headers })
+      .toPromise();
+  }
 }

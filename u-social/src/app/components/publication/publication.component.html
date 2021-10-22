@@ -1,26 +1,55 @@
 <mat-card class="wall">
   <mat-card-header>
-    <img mat-card-avatar class="header-image" [src]="post.user_picture" />
+    <img
+      mat-card-avatar
+      class="header-image"
+      [src]="
+        'https://proyecto2-39-semi1.s3.us-east-2.amazonaws.com/' +
+        post.user_picture
+      "
+    />
 
     <mat-card-title>
       <b>@{{ post.username }}</b></mat-card-title
     >
     <mat-card-subtitle>{{ post.date }}</mat-card-subtitle>
   </mat-card-header>
-
-  <mat-card-actions fxLayout="row" fxLayoutAlign="space-evenly">
-    <button mat-icon-button disabled></button>
-    <p *ngIf="post.comment">
-      {{ post.comment }}
-    </p>
-    <button mat-icon-button color="accent" *ngIf="post.comment">
-      <mat-icon class="icon">translate</mat-icon>
-    </button>
-    <button mat-icon-button disabled></button>
-  </mat-card-actions>
-  <mat-card-content fxLayout="column" fxLayoutAlign="center center">
-    <div>
-      <img class="image" mat-card-image [src]="post.picture" />
+  <mat-card-content fxLayout="row" fxLayoutAlign="center center">
+    <div fxFlex fxLayout="column" fxLayoutAlign="space-evenly center">
+      <p *ngIf="post.comment && show_original">
+        <b> {{ post.comment }}</b>
+      </p>
+      <p>
+        {{ translated_text }}
+      </p>
+      <button
+        mat-stroked-button
+        color="accent"
+        *ngIf="post.comment && translated_text == ''"
+        (click)="translatePost()"
+      >
+        Translate post
+        <mat-icon class="icon">translate</mat-icon>
+      </button>
+      <button
+        mat-button
+        color="accent"
+        *ngIf="translated_text != ''"
+        (click)="show_original = !show_original"
+      >
+        {{ show_original ? "Hide" : "Show" }} original
+      </button>
     </div>
+    <div>
+      <img
+        class="image"
+        mat-card-image
+        [src]="
+          'https://proyecto2-39-semi1.s3.us-east-2.amazonaws.com/' +
+          post.picture
+        "
+      />
+    </div>
+    <button mat-icon-button disabled></button>
   </mat-card-content>
 </mat-card>
