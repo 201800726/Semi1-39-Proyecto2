@@ -1,4 +1,4 @@
-export class PublicationModel {
+export class PostModel {
   constructor(
     public id_publication?: number,
     public username?: string,

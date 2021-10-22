@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { PublicationModel } from 'src/models/publication.model';
+import { PostModel } from 'src/models/post.model';
 
 @Component({
   selector: 'app-publication',
@@ -7,7 +7,7 @@ import { PublicationModel } from 'src/models/publication.model';
   styleUrls: ['./publication.component.css'],
 })
 export class PublicationComponent implements OnInit {
-  @Input('publication') publication!: PublicationModel;
+  @Input('post') post!: PostModel;
 
   constructor() {}
 

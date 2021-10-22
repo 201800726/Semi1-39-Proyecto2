@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatStepper } from '@angular/material/stepper';
 import { PostService } from 'src/app/services/post.service';
-import { PublicationModel } from 'src/models/publication.model';
+import { PostModel } from 'src/models/post.model';
 import { UserModel } from 'src/models/user.model';
 
 @Component({
@@ -32,8 +32,8 @@ export class FeedComponent implements OnInit {
   public create_content: boolean;
   public add_comment: boolean;
 
-  public publications: PublicationModel[];
-  public new_publication: PublicationModel;
+  public posts: PostModel[];
+  public new_publication: PostModel;
 
   public users: UserModel[];
   public friendship_requests: UserModel[];
@@ -53,14 +53,14 @@ export class FeedComponent implements OnInit {
     this.next = false;
     this.create_content = false;
     this.add_comment = false;
-    this.new_publication = new PublicationModel();
+    this.new_publication = new PostModel();
     this.show_requests = false;
     this.friendship_requests = [];
     this.users = [];
     this.myForm = this.fb.group({
       img: [null],
     });
-    this.publications = [
+    this.posts = [
       {
         user_picture:
           'https://ps.w.org/metronet-profile-picture/assets/icon-256x256.png?rev=2464419',
@@ -105,7 +105,7 @@ export class FeedComponent implements OnInit {
   cancel() {
     this.create_content = false;
     this.add_comment = false;
-    this.new_publication = new PublicationModel();
+    this.new_publication = new PostModel();
 
     //TODO limpiar la publicacion
   }

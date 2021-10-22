@@ -1,30 +1,26 @@
 <mat-card class="wall">
   <mat-card-header>
-    <img
-      mat-card-avatar
-      class="header-image"
-      [src]="publication.user_picture"
-    />
+    <img mat-card-avatar class="header-image" [src]="post.user_picture" />
 
     <mat-card-title>
-      <b>@{{ publication.username }}</b></mat-card-title
+      <b>@{{ post.username }}</b></mat-card-title
     >
-    <mat-card-subtitle>{{ publication.date }}</mat-card-subtitle>
+    <mat-card-subtitle>{{ post.date }}</mat-card-subtitle>
   </mat-card-header>
 
   <mat-card-actions fxLayout="row" fxLayoutAlign="space-evenly">
     <button mat-icon-button disabled></button>
-    <p *ngIf="publication.comment">
-      {{ publication.comment }}
+    <p *ngIf="post.comment">
+      {{ post.comment }}
     </p>
-    <button mat-icon-button color="accent" *ngIf="publication.comment">
+    <button mat-icon-button color="accent" *ngIf="post.comment">
       <mat-icon class="icon">translate</mat-icon>
     </button>
     <button mat-icon-button disabled></button>
   </mat-card-actions>
   <mat-card-content fxLayout="column" fxLayoutAlign="center center">
     <div>
-      <img class="image" mat-card-image [src]="publication.picture" />
+      <img class="image" mat-card-image [src]="post.picture" />
     </div>
   </mat-card-content>
 </mat-card>

@@ -10,8 +10,8 @@
   <mat-step label="Publications" state="pubs" [completed]="next">
     <div fxLayout="row" fxLayoutAlign="space-between start">
       <div class="right-side" fxLayout="column" fxLayoutAlign="start">
-        <div class="pub" *ngFor="let publication of publications">
-          <app-publication [publication]="publication"></app-publication>
+        <div class="pub" *ngFor="let post of posts">
+          <app-publication [post]="post"></app-publication>
         </div>
       </div>
       <div fxFlex class="left-side" fxLayout="column" fxLayoutAlign="start">
