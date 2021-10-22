@@ -63,22 +63,36 @@ export class FeedComponent implements OnInit {
     });
   }
 
-  private async getPosts() {
+  public async getPosts(filters: string[] = []) {
     try {
       this.posts = [];
-      const data = await this._postService.getPosts(this.user.username);
-      if (data['code'] === '200') {
-        data['data'].forEach((element: any) => {
-          const post = new PostModel();
-          post.user_picture = element.profile_picture;
-          post.date = new Date(element.date).toDateString();
-          post.username = element.user;
-          post.comment = element.text;
-          post.picture = element.image;
-          this.posts.push(post);
-        });
+      if (filters.length > 0) {
+        const data = await this._postService.getFilteredPosts(
+          filters,
+          this.user.username
+        );
+        if (data['code'] === '200') {
+          this.mapPost(data['data']);
+        }
+      } else {
+        const data = await this._postService.getPosts(this.user.username);
+        if (data['code'] === '200') {
+          this.mapPost(data['data']);
+        }
       }
     } catch (error) {}
+  }
+
+  private mapPost(pubs: []) {
+    pubs.forEach((element: any) => {
+      const post = new PostModel();
+      post.user_picture = element.profile_picture;
+      post.date = new Date(element.date).toDateString();
+      post.username = element.user;
+      post.comment = element.text;
+      post.picture = element.image;
+      this.posts.push(post);
+    });
   }
 
   ngOnInit(): void {

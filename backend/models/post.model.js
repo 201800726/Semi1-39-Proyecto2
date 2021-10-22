@@ -41,23 +41,24 @@ const postModel = {
       }
     }
 
-    let query = `SELECT b.idPublicacion AS idPost, b.fecha AS date, b.texto AS text, b.imagen AS image, b.usuario AS user FROM 
-        (SELECT p.* FROM PUBLICACION p
-        INNER JOIN ((select username from USUARIO u, AMISTAD a
-                    where a.usuario = '${username}' and a.amigo = u.username and a.estado = 1)
-                    UNION
-                    (select username from USUARIO u, AMISTAD a
-                    where a.usuario = u.username and a.amigo = '${username}'  and a.estado = 1)) a ON a.username = p.usuario 
-        UNION 
-        SELECT p.* FROM PUBLICACION p 
-        WHERE p.usuario = '${username}'
-        )b, 
-        (
-            SELECT distinct publicacion FROM ETIQUETA 
-            WHERE ${stringL}
-        )c
-        WHERE c.publicacion = b.idPublicacion
-        ORDER BY b.fecha DESC  `;
+    let query = `SELECT b.idPublicacion AS idPost, b.fecha AS date, b.texto AS text, b.imagen AS image, b.usuario AS user , 
+    us.foto AS profile_picture  FROM USUARIO us,
+    (SELECT p.* FROM PUBLICACION p
+    INNER JOIN ((select username from USUARIO u, AMISTAD a
+                where a.usuario = '${username}' and a.amigo = u.username and a.estado = 1)
+                UNION
+                (select username from USUARIO u, AMISTAD a
+                where a.usuario = u.username and a.amigo = '${username}'  and a.estado = 1)) a ON a.username = p.usuario 
+    UNION 
+    SELECT p.* FROM PUBLICACION p 
+    WHERE p.usuario = '${username}'
+    )b, 
+    (
+        SELECT distinct publicacion FROM ETIQUETA 
+        WHERE ${stringL}
+    )c
+    WHERE c.publicacion = b.idPublicacion AND us.username = b.usuario
+    ORDER BY b.fecha DESC `;
 
     return this.executeQuery(query, callback);
   },

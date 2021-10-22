@@ -16,6 +16,10 @@ export class PostService {
     return await this._httpClient.get(`${this.url}/${username}`).toPromise();
   }
 
+  public async getLabels(): Promise<any> {
+    return await this._httpClient.get(`${this.url}/labels`).toPromise();
+  }
+
   public async translatePost(comment: string = ''): Promise<any> {
     const body = {
       text: comment,
@@ -37,6 +41,21 @@ export class PostService {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return await this._httpClient
       .post(`${this.url}/create`, json, { headers })
+      .toPromise();
+  }
+
+  public async getFilteredPosts(
+    filters: string[],
+    username: string = ''
+  ): Promise<any> {
+    const body = {
+      labels: filters,
+      username: username,
+    };
+    const json = JSON.stringify(body);
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return await this._httpClient
+      .post(`${this.url}/filter`, json, { headers })
       .toPromise();
   }
 }
