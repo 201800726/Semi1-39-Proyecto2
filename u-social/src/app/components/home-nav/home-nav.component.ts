@@ -116,7 +116,7 @@ export class HomeNavComponent {
             this.user = data['data'];
             localStorage.setItem('user', JSON.stringify(this.user));
             this.getCounters();
-            this.showSnackbar('Updated succesfully c:');
+            this.showSnackbar('Updated successfully c:');
           }
         } catch (error: any) {
           if (error['error']['data']['name'] === 'NotAuthorizedException')

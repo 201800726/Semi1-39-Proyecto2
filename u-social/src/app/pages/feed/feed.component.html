@@ -76,7 +76,7 @@
           />
           <img
             [src]="
-              new_publication.picture ||
+              new_post.picture ||
               'https://img.ly/blog/content/images/2021/06/crop-image-react-open-source.jpg'
             "
           />
@@ -91,7 +91,7 @@
               matInput
               placeholder="Ex. It makes me feel..."
               style="height: 30px"
-              [(ngModel)]="new_publication.comment"
+              [(ngModel)]="new_post.comment"
               name="commentField"
               #commentField="ngModel"
             ></textarea>

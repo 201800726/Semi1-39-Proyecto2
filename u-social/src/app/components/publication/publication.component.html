@@ -16,10 +16,10 @@
   </mat-card-header>
   <mat-card-content fxLayout="row" fxLayoutAlign="center center">
     <div fxFlex fxLayout="column" fxLayoutAlign="space-evenly center">
-      <p *ngIf="post.comment && show_original">
+      <p *ngIf="post.comment && show_original" class="comment">
         <b> {{ post.comment }}</b>
       </p>
-      <p>
+      <p class="comment">
         {{ translated_text }}
       </p>
       <button

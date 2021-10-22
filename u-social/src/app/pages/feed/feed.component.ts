@@ -33,7 +33,7 @@ export class FeedComponent implements OnInit {
   public add_comment: boolean;
 
   public posts: PostModel[];
-  public new_publication: PostModel;
+  public new_post: PostModel;
 
   public users: UserModel[];
   public friendship_requests: UserModel[];
@@ -53,7 +53,7 @@ export class FeedComponent implements OnInit {
     this.next = false;
     this.create_content = false;
     this.add_comment = false;
-    this.new_publication = new PostModel();
+    this.new_post = new PostModel();
     this.show_requests = false;
     this.friendship_requests = [];
     this.posts = [];
@@ -65,12 +65,13 @@ export class FeedComponent implements OnInit {
 
   private async getPosts() {
     try {
+      this.posts = [];
       const data = await this._postService.getPosts(this.user.username);
       if (data['code'] === '200') {
         data['data'].forEach((element: any) => {
           const post = new PostModel();
           post.user_picture = element.profile_picture;
-          post.date = new Date(element.date).toLocaleString('en-us');
+          post.date = new Date(element.date).toDateString();
           post.username = element.user;
           post.comment = element.text;
           post.picture = element.image;
@@ -92,17 +93,25 @@ export class FeedComponent implements OnInit {
   cancel() {
     this.create_content = false;
     this.add_comment = false;
-    this.new_publication = new PostModel();
-
-    //TODO limpiar la publicacion
+    this.new_post = new PostModel();
   }
 
-  publish() {
-    if (this.new_publication.pictureB64) {
-      if (!this.add_comment) this.new_publication.comment = '';
-      console.log(this.new_publication);
-    } else {
-      this.showSnackbar('No picture added :c');
+  public async publish() {
+    try {
+      if (this.new_post.pictureB64) {
+        if (!this.add_comment) this.new_post.comment = '';
+        this.new_post.username = this.user.username;
+        const data = await this._postService.post(this.new_post);
+        if (data['code'] === '200') {
+          this.showSnackbar('Posted successfully c:');
+          this.getPosts();
+          this.cancel();
+        }
+      } else {
+        this.showSnackbar('No picture added :c');
+      }
+    } catch (error) {
+      this.showSnackbar();
     }
   }
 
@@ -147,7 +156,7 @@ export class FeedComponent implements OnInit {
           this.myForm.get('img')?.updateValueAndValidity();
           const reader = new FileReader();
           reader.onload = () => {
-            this.new_publication.picture = reader.result as string;
+            this.new_post.picture = reader.result as string;
           };
           reader.readAsDataURL(file);
         }
@@ -161,12 +170,12 @@ export class FeedComponent implements OnInit {
     const reader = new FileReader();
     reader.onload = (e: any) => {
       const base64 = e.target.result;
-      this.new_publication.pictureB64 = base64.split(',')[1];
+      this.new_post.pictureB64 = base64.split(',')[1];
     };
     reader.readAsDataURL(photo);
   }
 
-  showSnackbar(message: string) {
+  showSnackbar(message: string = 'Something went wrogn :c') {
     this._snackBar.open(message, 'CLOSE', { duration: 3000 });
   }
 }
