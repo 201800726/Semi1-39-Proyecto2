@@ -11,6 +11,7 @@ import { PostModel } from 'src/models/post.model';
 import { UserModel } from 'src/models/user.model';
 
 import { FriendshipService } from 'src/app/services/friendship.service';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-feed',
@@ -103,7 +104,9 @@ export class FeedComponent implements OnInit {
     if (container !== null) this.user = <UserModel>JSON.parse(container);
   }
   ngAfterViewInit() {
-    this.stepper.selectedIndex = 1;
+    setTimeout(() => {
+      this.stepper.selectedIndex = 1;
+    });
   }
 
   cancel() {
