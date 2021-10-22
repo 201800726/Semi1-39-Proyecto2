@@ -19,7 +19,7 @@ export class FriendComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  public response(status: boolean) {
+  public response(status: number) {
     const request_answer = {
       user: this.user,
       response: status,

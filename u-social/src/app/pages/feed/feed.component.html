@@ -7,15 +7,19 @@
   #stepper
 >
   <mat-step label="" state="edge" completed="true" editable="false"> </mat-step>
-  <mat-step label="Publications" state="pubs" [completed]="next">
+  <mat-step label="Posts" state="pubs" [completed]="next">
     <div fxLayout="row" fxLayoutAlign="space-between start">
       <div class="right-side" fxLayout="column" fxLayoutAlign="start">
-        <div class="pub" *ngFor="let publication of publications">
-          <app-publication [publication]="publication"></app-publication>
+        <div class="info" *ngIf="posts.length == 0">
+          <p class="face">(>.<)</p>
+          <p class="text">No posts found</p>
+        </div>
+        <div class="pub" *ngFor="let post of posts">
+          <app-publication [post]="post"></app-publication>
         </div>
       </div>
       <div fxFlex class="left-side" fxLayout="column" fxLayoutAlign="start">
-        <!-- New publication -->
+        <!-- New Post -->
         <button
           mat-button
           color="accent"
@@ -27,7 +31,7 @@
         </button>
         <div *ngIf="create_content">
           <div fxLayout="row" fxLayoutAlign="space-between">
-            <h2><b>New Publication</b></h2>
+            <h2><b>New Post</b></h2>
 
             <div>
               <button
@@ -72,7 +76,7 @@
           />
           <img
             [src]="
-              new_publication.picture ||
+              new_post.picture ||
               'https://img.ly/blog/content/images/2021/06/crop-image-react-open-source.jpg'
             "
           />
@@ -87,7 +91,7 @@
               matInput
               placeholder="Ex. It makes me feel..."
               style="height: 30px"
-              [(ngModel)]="new_publication.comment"
+              [(ngModel)]="new_post.comment"
               name="commentField"
               #commentField="ngModel"
             ></textarea>
@@ -103,7 +107,7 @@
 
         <!---->
 
-        <app-filter></app-filter>
+        <app-filter (labels)="getPosts($event)"></app-filter>
       </div>
     </div>
   </mat-step>
@@ -114,11 +118,7 @@
       fxLayout="row"
       fxLayoutAlign="end"
     >
-      <mat-chip
-        color="primary"
-        selected
-        (click)="show_requests = !show_requests"
-      >
+      <mat-chip color="primary" selected (click)="changeView()">
         <mat-icon class="icon">
           {{ show_requests ? "person_search" : "notifications" }}</mat-icon
         >

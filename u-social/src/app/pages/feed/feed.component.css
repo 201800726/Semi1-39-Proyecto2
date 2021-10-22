@@ -26,3 +26,20 @@ img {
 .file-input {
   display: none;
 }
+
+.info {
+  margin-top: 80px;
+  width: 600px;
+  height: 500px;
+  text-align: center;
+  font-weight: bolder;
+}
+
+.face {
+  font-size: 100px;
+}
+
+.text {
+  margin-top: 50px;
+  font-size: medium;
+}

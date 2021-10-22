@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.put("/", friendshipController.update);
 router.post("/create", friendshipController.create);
-router.delete("/", friendshipController.delete);
+router.post("/delete", friendshipController.delete);
 router.get("/getFriends/:username", friendshipController.getFriends);
 router.get("/getRequests/:username", friendshipController.getRequests);
 router.get("/getNoFriends/:username", friendshipController.getNoFriends);

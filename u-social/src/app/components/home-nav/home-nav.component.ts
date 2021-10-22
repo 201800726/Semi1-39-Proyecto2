@@ -6,8 +6,6 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 
-import { Md5 } from 'ts-md5';
-
 import { UserModel } from 'src/models/user.model';
 import { PasswordDialogComponent } from '../password-dialog/password-dialog.component';
 
@@ -103,8 +101,7 @@ export class HomeNavComponent {
     dialogRef.afterClosed().subscribe(async (result) => {
       if (result) {
         try {
-          const md5 = new Md5();
-          this.user_updated.password = '' + md5.appendStr(result).end();
+          this.user_updated.password = result;
           const update = await this._userService.update(
             this.user_updated,
             this.user.profile_picture,
@@ -119,7 +116,7 @@ export class HomeNavComponent {
             this.user = data['data'];
             localStorage.setItem('user', JSON.stringify(this.user));
             this.getCounters();
-            this.showSnackbar('Updated succesfully c:');
+            this.showSnackbar('Updated successfully c:');
           }
         } catch (error: any) {
           if (error['error']['data']['name'] === 'NotAuthorizedException')

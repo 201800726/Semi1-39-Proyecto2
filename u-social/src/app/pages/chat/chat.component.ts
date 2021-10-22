@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ChatService } from 'src/app/services/chat.service';
 import { FriendshipService } from 'src/app/services/friendship.service';
-import { SocketService } from 'src/app/services/socket.service';
 import { DayModel } from 'src/models/day.model';
 import { MessageModel } from 'src/models/message.model';
 import { UserModel } from 'src/models/user.model';
@@ -44,9 +43,7 @@ export class ChatComponent implements OnInit {
 
   public async getFriends() {
     try {
-      const data = await this._friendshipService.getFriends(
-        this.user.username || ''
-      );
+      const data = await this._friendshipService.getFriends(this.user.username);
       if (data['code'] === '200') {
         this.friends = data['data'];
       }
@@ -57,10 +54,8 @@ export class ChatComponent implements OnInit {
 
   sendMessage() {
     try {
-      /*this.new_message.emisor = this.user.username;
-      this.new_message.receptor = this.friend.username;*/
-      this.new_message.emisor = 'tommo_l';
-      this.new_message.receptor = 'niallitobb';
+      this.new_message.emisor = this.user.username;
+      this.new_message.receptor = this.friend.username;
       const date = new Date();
       const hours = date.getHours();
       const format = hours >= 12 ? 'pm' : 'am';
@@ -72,6 +67,7 @@ export class ChatComponent implements OnInit {
         this._datepipe.transform(new Date(), 'hh:mm ', 'en-us')?.toString() +
         format;
       this._chatService.sendMessage(this.new_message);
+      this.new_message = new MessageModel();
     } catch (error) {
       this.showSnackbar();
     }

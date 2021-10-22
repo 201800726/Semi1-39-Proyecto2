@@ -69,6 +69,6 @@ io.on("connection", (socket) => {
       }
     });
     console.log(query);
-    io.sockets.emit("message:server", "Mensajes");
+    io.sockets.emit("message:server", data);
   });
 });

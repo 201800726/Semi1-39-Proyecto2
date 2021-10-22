@@ -6,8 +6,12 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatStepper } from '@angular/material/stepper';
-import { PublicationModel } from 'src/models/publication.model';
+import { PostService } from 'src/app/services/post.service';
+import { PostModel } from 'src/models/post.model';
 import { UserModel } from 'src/models/user.model';
+
+import { FriendshipService } from 'src/app/services/friendship.service';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-feed',
@@ -31,8 +35,8 @@ export class FeedComponent implements OnInit {
   public create_content: boolean;
   public add_comment: boolean;
 
-  public publications: PublicationModel[];
-  public new_publication: PublicationModel;
+  public posts: PostModel[];
+  public new_post: PostModel;
 
   public users: UserModel[];
   public friendship_requests: UserModel[];
@@ -40,83 +44,155 @@ export class FeedComponent implements OnInit {
 
   public myForm: FormGroup;
 
-  constructor(private _snackBar: MatSnackBar, public fb: FormBuilder) {
+  public user: UserModel;
+
+  constructor(
+    private _snackBar: MatSnackBar,
+    public fb: FormBuilder,
+    private _postService: PostService,
+    private _friendshipService: FriendshipService
+  ) {
+    this.user = new UserModel();
     this.stepSelected = 'Friends';
     this.next = false;
     this.create_content = false;
     this.add_comment = false;
-    this.new_publication = new PublicationModel();
+    this.new_post = new PostModel();
     this.show_requests = false;
     this.friendship_requests = [];
+    this.posts = [];
     this.users = [];
     this.myForm = this.fb.group({
       img: [null],
     });
-    this.publications = [
-      {
-        user_picture:
-          'https://ps.w.org/metronet-profile-picture/assets/icon-256x256.png?rev=2464419',
-        username: 'fulanita',
-        date: '03/08/20 3:15 pm',
-        picture:
-          'https://sites.google.com/site/ilvoloenclase/_/rsrc/1479493717600/home/CuUTkb1WcAA5JOS.jpg',
-        comment:
-          'Il Volo è un gruppo musicale italiano composto da due tenori e un baritono: Piero Barone (Naro, 24 giugno 1993), Ignazio Boschetto (Bologna, 4 ottobre 1994) e Gianluca Ginoble (Roseto degli Abruzzi, 11 febbraio 1995).',
-      },
-      {
-        user_picture:
-          'https://d1hbpr09pwz0sk.cloudfront.net/profile_pic/camille-ricketts-4793e5f1',
-        username: 'menganito',
-        date: '04/08/20 5:25 pm',
-        picture:
-          'https://wp-growpro.s3-eu-west-1.amazonaws.com/media/2019/02/Que-ver-en-Los-Angeles.jpg',
-        comment:
-          'Los Angeles lies in a basin in Southern California, adjacent to the Pacific Ocean, with mountains as high as 10,000 feet (3,000 m), and deserts. The city, which covers about 469 square miles (1,210 km2), is the seat of Los Angeles County, the most populous county in the United States.',
-      },
-    ];
   }
 
-  ngOnInit(): void {}
+  public async getPosts(filters: string[] = []) {
+    try {
+      this.posts = [];
+      if (filters.length > 0) {
+        const data = await this._postService.getFilteredPosts(
+          filters,
+          this.user.username
+        );
+        if (data['code'] === '200') {
+          this.mapPost(data['data']);
+        }
+      } else {
+        const data = await this._postService.getPosts(this.user.username);
+        if (data['code'] === '200') {
+          this.mapPost(data['data']);
+        }
+      }
+    } catch (error) {}
+  }
+
+  private mapPost(pubs: []) {
+    pubs.forEach((element: any) => {
+      const post = new PostModel();
+      post.user_picture = element.profile_picture;
+      post.date = new Date(element.date).toDateString();
+      post.username = element.user;
+      post.comment = element.text;
+      post.picture = element.image;
+      this.posts.push(post);
+    });
+  }
+
+  ngOnInit(): void {
+    const container = localStorage.getItem('user');
+    if (container !== null) this.user = <UserModel>JSON.parse(container);
+  }
   ngAfterViewInit() {
-    this.stepper.selectedIndex = 1;
+    setTimeout(() => {
+      this.stepper.selectedIndex = 1;
+    });
   }
 
   cancel() {
     this.create_content = false;
     this.add_comment = false;
-    this.new_publication = new PublicationModel();
-
-    //TODO limpiar la publicacion
+    this.new_post = new PostModel();
   }
 
-  publish() {
-    if (this.new_publication.pictureB64) {
-      if (!this.add_comment) this.new_publication.comment = '';
-      console.log(this.new_publication);
-    } else {
-      this.showSnackbar('No picture added :c');
+  public async publish() {
+    try {
+      if (this.new_post.pictureB64) {
+        if (!this.add_comment) this.new_post.comment = '';
+        this.new_post.username = this.user.username;
+        const data = await this._postService.post(this.new_post);
+        if (data['code'] === '200') {
+          this.showSnackbar('Posted successfully c:');
+          this.getPosts();
+          this.cancel();
+        }
+      } else {
+        this.showSnackbar('No picture added :c');
+      }
+    } catch (error) {
+      this.showSnackbar();
     }
   }
 
-  sendFriendshipRequest(user: UserModel) {
-    //TODO service to send friendship requests
-    console.log(user);
+  public async changeView() {
+    this.show_requests = !this.show_requests;
+    this.getNoFriends();
   }
 
-  responseFriendshipRequest(answer: any) {
-    //TODO service to answer friendship requests
-    console.log(answer);
+  public async getNoFriends() {
+    try {
+      const data = await this._friendshipService.getNoFriends(
+        this.user.username
+      );
+      if (data['code'] === '200') {
+        this.users = data['data'];
+      }
+      const data2 = await this._friendshipService.getRequests(
+        this.user.username
+      );
+      if (data2['code'] === '200') {
+        this.friendship_requests = data2['data'];
+      }
+    } catch (error) {}
+  }
+
+  public async sendFriendshipRequest(friend: UserModel) {
+    try {
+      const data = await this._friendshipService.sendFriendshipRequest(
+        this.user.username,
+        friend.username
+      );
+      if (data['code'] === '200')
+        this.showSnackbar(`Friendship request send to: @${friend.username}`);
+      this.getNoFriends();
+    } catch (error) {
+      this.showSnackbar("Couldn't send friendship request :c");
+    }
+  }
+
+  public async responseFriendshipRequest(answer: any) {
+    try {
+      const data = await this._friendshipService.sendFriendshipRequest(
+        this.user.username,
+        answer.user.username,
+        answer.response
+      );
+      if (data['code'] === '200') this.getNoFriends();
+    } catch (error) {
+      this.showSnackbar();
+    }
   }
 
   selectionChange(event: StepperSelectionEvent) {
     this.stepSelected = event.selectedStep.label;
     switch (this.stepSelected) {
-      case 'Publications':
+      case 'Posts':
         this.next = true;
+        this.getPosts();
         break;
       case 'Friends':
         this.next = false;
-
+        this.getNoFriends();
         break;
     }
   }
@@ -139,7 +215,7 @@ export class FeedComponent implements OnInit {
           this.myForm.get('img')?.updateValueAndValidity();
           const reader = new FileReader();
           reader.onload = () => {
-            this.new_publication.picture = reader.result as string;
+            this.new_post.picture = reader.result as string;
           };
           reader.readAsDataURL(file);
         }
@@ -153,12 +229,12 @@ export class FeedComponent implements OnInit {
     const reader = new FileReader();
     reader.onload = (e: any) => {
       const base64 = e.target.result;
-      this.new_publication.pictureB64 = base64.split(',')[1];
+      this.new_post.pictureB64 = base64.split(',')[1];
     };
     reader.readAsDataURL(photo);
   }
 
-  showSnackbar(message: string) {
+  showSnackbar(message: string = 'Something went wrogn :c') {
     this._snackBar.open(message, 'CLOSE', { duration: 3000 });
   }
 }
