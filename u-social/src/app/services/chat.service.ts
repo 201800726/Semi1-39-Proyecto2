@@ -34,7 +34,6 @@ export class ChatService {
       ) {
         this.pushMessage(message);
       }
-      //this.showChat();
     });
   }
 

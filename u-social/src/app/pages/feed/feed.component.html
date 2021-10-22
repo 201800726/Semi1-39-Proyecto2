@@ -7,7 +7,7 @@
   #stepper
 >
   <mat-step label="" state="edge" completed="true" editable="false"> </mat-step>
-  <mat-step label="Publications" state="pubs" [completed]="next">
+  <mat-step label="Posts" state="pubs" [completed]="next">
     <div fxLayout="row" fxLayoutAlign="space-between start">
       <div class="right-side" fxLayout="column" fxLayoutAlign="start">
         <div class="info" *ngIf="posts.length == 0">
@@ -118,11 +118,7 @@
       fxLayout="row"
       fxLayoutAlign="end"
     >
-      <mat-chip
-        color="primary"
-        selected
-        (click)="show_requests = !show_requests"
-      >
+      <mat-chip color="primary" selected (click)="getNoFriends()">
         <mat-icon class="icon">
           {{ show_requests ? "person_search" : "notifications" }}</mat-icon
         >

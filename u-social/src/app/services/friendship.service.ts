@@ -12,13 +12,19 @@ export class FriendshipService {
     this.url = `${environment.url}/friends`;
   }
 
-  public async getFriends(username: string): Promise<any> {
+  public async getRequests(username: string = ''): Promise<any> {
+    return await this._httpClient
+      .get(`${this.url}/getRequests/${username}`)
+      .toPromise();
+  }
+
+  public async getFriends(username: string = ''): Promise<any> {
     return await this._httpClient
       .get(`${this.url}/getFriends/${username}`)
       .toPromise();
   }
 
-  public async getNoFriends(username: string): Promise<any> {
+  public async getNoFriends(username: string = ''): Promise<any> {
     return await this._httpClient
       .get(`${this.url}/getNoFriends/${username}`)
       .toPromise();

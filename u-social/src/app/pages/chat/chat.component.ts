@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ChatService } from 'src/app/services/chat.service';
 import { FriendshipService } from 'src/app/services/friendship.service';
-import { SocketService } from 'src/app/services/socket.service';
 import { DayModel } from 'src/models/day.model';
 import { MessageModel } from 'src/models/message.model';
 import { UserModel } from 'src/models/user.model';
@@ -44,9 +43,7 @@ export class ChatComponent implements OnInit {
 
   public async getFriends() {
     try {
-      const data = await this._friendshipService.getFriends(
-        this.user.username || ''
-      );
+      const data = await this._friendshipService.getFriends(this.user.username);
       if (data['code'] === '200') {
         this.friends = data['data'];
       }

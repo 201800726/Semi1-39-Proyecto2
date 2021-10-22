@@ -10,6 +10,8 @@ import { PostService } from 'src/app/services/post.service';
 import { PostModel } from 'src/models/post.model';
 import { UserModel } from 'src/models/user.model';
 
+import { FriendshipService } from 'src/app/services/friendship.service';
+
 @Component({
   selector: 'app-feed',
   templateUrl: './feed.component.html',
@@ -46,7 +48,8 @@ export class FeedComponent implements OnInit {
   constructor(
     private _snackBar: MatSnackBar,
     public fb: FormBuilder,
-    private _postService: PostService
+    private _postService: PostService,
+    private _friendshipService: FriendshipService
   ) {
     this.user = new UserModel();
     this.stepSelected = 'Friends';
@@ -129,6 +132,24 @@ export class FeedComponent implements OnInit {
     }
   }
 
+  public async getNoFriends() {
+    try {
+      this.show_requests = !this.show_requests;
+      const data = await this._friendshipService.getNoFriends(
+        this.user.username
+      );
+      if (data['code'] === '200') {
+        this.users = data['data'];
+      }
+      const data2 = await this._friendshipService.getRequests(
+        this.user.username
+      );
+      if (data2['code'] === '200') {
+        this.friendship_requests = data2['data'];
+      }
+    } catch (error) {}
+  }
+
   sendFriendshipRequest(user: UserModel) {
     //TODO service to send friendship requests
     console.log(user);
@@ -142,12 +163,13 @@ export class FeedComponent implements OnInit {
   selectionChange(event: StepperSelectionEvent) {
     this.stepSelected = event.selectedStep.label;
     switch (this.stepSelected) {
-      case 'Publications':
+      case 'Posts':
         this.next = true;
+        this.getPosts();
         break;
       case 'Friends':
         this.next = false;
-
+        this.getNoFriends();
         break;
     }
   }
