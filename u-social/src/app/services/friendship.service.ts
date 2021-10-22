@@ -29,4 +29,31 @@ export class FriendshipService {
       .get(`${this.url}/getNoFriends/${username}`)
       .toPromise();
   }
+
+  public async sendFriendshipRequest(
+    user: string = '',
+    friend: string = '',
+    option: number = 2
+  ): Promise<any> {
+    const body = {
+      user: user,
+      friend: friend,
+    };
+    const json = JSON.stringify(body);
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    switch (option) {
+      case 0:
+        return await this._httpClient
+          .put(`${this.url}/`, json, { headers })
+          .toPromise();
+      case 1:
+        return await this._httpClient
+          .post(`${this.url}/delete`, json, { headers })
+          .toPromise();
+      default:
+        return await this._httpClient
+          .post(`${this.url}/create`, json, { headers })
+          .toPromise();
+    }
+  }
 }

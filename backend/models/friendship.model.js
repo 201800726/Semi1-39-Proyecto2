@@ -30,7 +30,7 @@ const friendshipModel = {
 
     let query = `UPDATE AMISTAD
         SET estado = 1
-        WHERE usuario = '${user}' AND amigo = '${friend}'`;
+        WHERE usuario = '${friend}' AND amigo = '${user}'`;
 
     return this.executeQuery(query, callback);
   },
@@ -39,7 +39,7 @@ const friendshipModel = {
     const { user, friend } = params;
 
     let query = `DELETE FROM AMISTAD 
-        WHERE usuario = '${user}' AND amigo = '${friend}'`;
+        WHERE usuario = '${friend}' AND amigo = '${user}'`;
 
     return this.executeQuery(query, callback);
   },

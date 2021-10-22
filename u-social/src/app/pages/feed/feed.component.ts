@@ -134,9 +134,13 @@ export class FeedComponent implements OnInit {
     }
   }
 
+  public async changeView() {
+    this.show_requests = !this.show_requests;
+    this.getNoFriends();
+  }
+
   public async getNoFriends() {
     try {
-      this.show_requests = !this.show_requests;
       const data = await this._friendshipService.getNoFriends(
         this.user.username
       );
@@ -152,14 +156,31 @@ export class FeedComponent implements OnInit {
     } catch (error) {}
   }
 
-  sendFriendshipRequest(user: UserModel) {
-    //TODO service to send friendship requests
-    console.log(user);
+  public async sendFriendshipRequest(friend: UserModel) {
+    try {
+      const data = await this._friendshipService.sendFriendshipRequest(
+        this.user.username,
+        friend.username
+      );
+      if (data['code'] === '200')
+        this.showSnackbar(`Friendship request send to: @${friend.username}`);
+      this.getNoFriends();
+    } catch (error) {
+      this.showSnackbar("Couldn't send friendship request :c");
+    }
   }
 
-  responseFriendshipRequest(answer: any) {
-    //TODO service to answer friendship requests
-    console.log(answer);
+  public async responseFriendshipRequest(answer: any) {
+    try {
+      const data = await this._friendshipService.sendFriendshipRequest(
+        this.user.username,
+        answer.user.username,
+        answer.response
+      );
+      if (data['code'] === '200') this.getNoFriends();
+    } catch (error) {
+      this.showSnackbar();
+    }
   }
 
   selectionChange(event: StepperSelectionEvent) {

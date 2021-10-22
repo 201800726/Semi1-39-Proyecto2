@@ -28,7 +28,7 @@
       mat-stroked-button
       color="accent"
       *ngIf="find == 1"
-      (click)="response(true)"
+      (click)="response(0)"
     >
       Confirm
       <mat-icon class="icon">check</mat-icon>
@@ -38,7 +38,7 @@
       mat-stroked-button
       color="accent"
       *ngIf="find == 1"
-      (click)="response(false)"
+      (click)="response(1)"
     >
       Remove
       <mat-icon class="icon">cancel</mat-icon>
