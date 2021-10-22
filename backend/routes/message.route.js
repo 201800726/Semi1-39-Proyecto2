@@ -1,4 +1,4 @@
-const MessageController = require("../controllers/Message.controller");
+const MessageController = require("../controllers/message.controller");
 const express = require("express");
 const router = express.Router();
 
