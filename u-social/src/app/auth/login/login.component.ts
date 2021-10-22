@@ -3,7 +3,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { MediaObserver, MediaChange } from '@angular/flex-layout';
 import { Subscription } from 'rxjs';
-import { Md5 } from 'ts-md5';
 
 import { UserModel } from 'src/models/user.model';
 import { Router } from '@angular/router';
@@ -78,8 +77,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   public async signin(Form: NgForm): Promise<void> {
     try {
-      const md5 = new Md5();
-      this.user.password = '' + md5.appendStr(this.password).end();
+      this.user.password = this.password;
       if (this.normal_login) {
         const data = await this._userService.normalSignin(this.user);
         if (data['code'] === '200') {
@@ -168,8 +166,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.showSnackbar('Profile picture required :o');
         throw new Error();
       }
-      const md5 = new Md5();
-      this.new_user.password = '' + md5.appendStr(this.new_password).end();
+      this.new_user.password = this.new_password;
       const data = await this._userService.signup(this.new_user);
       if (data['code'] === '200') {
         this.uploadedPhoto = '';
@@ -182,9 +179,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       } else {
         this.showSnackbar();
       }
-    } catch (error) {
-      this.showSnackbar();
-    }
+    } catch (error) {}
   }
 
   openDialogCamera() {

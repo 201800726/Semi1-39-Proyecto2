@@ -6,6 +6,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatStepper } from '@angular/material/stepper';
+import { PostService } from 'src/app/services/post.service';
 import { PublicationModel } from 'src/models/publication.model';
 import { UserModel } from 'src/models/user.model';
 
@@ -40,7 +41,14 @@ export class FeedComponent implements OnInit {
 
   public myForm: FormGroup;
 
-  constructor(private _snackBar: MatSnackBar, public fb: FormBuilder) {
+  public user: UserModel;
+
+  constructor(
+    private _snackBar: MatSnackBar,
+    public fb: FormBuilder,
+    private _postService: PostService
+  ) {
+    this.user = new UserModel();
     this.stepSelected = 'Friends';
     this.next = false;
     this.create_content = false;
@@ -76,7 +84,20 @@ export class FeedComponent implements OnInit {
     ];
   }
 
-  ngOnInit(): void {}
+  private async getPosts() {
+    try {
+      const data = await this._postService.getPosts(this.user.username);
+      if (data['code'] === '200') {
+        console.log(data['data']);
+      }
+    } catch (error) {}
+  }
+
+  ngOnInit(): void {
+    const container = localStorage.getItem('user');
+    if (container !== null) this.user = <UserModel>JSON.parse(container);
+    this.getPosts();
+  }
   ngAfterViewInit() {
     this.stepper.selectedIndex = 1;
   }
