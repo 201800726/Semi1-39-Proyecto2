@@ -101,7 +101,6 @@ export class FeedComponent implements OnInit {
   ngOnInit(): void {
     const container = localStorage.getItem('user');
     if (container !== null) this.user = <UserModel>JSON.parse(container);
-    this.getPosts();
   }
   ngAfterViewInit() {
     this.stepper.selectedIndex = 1;
