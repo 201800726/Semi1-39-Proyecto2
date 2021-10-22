@@ -9,18 +9,18 @@ export class FriendshipService {
   public url: string;
 
   constructor(private _httpClient: HttpClient) {
-    this.url = `${environment.url}/friend`;
+    this.url = `${environment.url}/friends`;
   }
 
   public async getFriends(username: string): Promise<any> {
-    const user = {
-      username: username,
-    };
-    const json = JSON.stringify(user);
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
-
     return await this._httpClient
-      .post(`${this.url}/friends`, json, { headers })
+      .get(`${this.url}/getFriends/${username}`)
+      .toPromise();
+  }
+
+  public async getNoFriends(username: string): Promise<any> {
+    return await this._httpClient
+      .get(`${this.url}/getNoFriends/${username}`)
       .toPromise();
   }
 }

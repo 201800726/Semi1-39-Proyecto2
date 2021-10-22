@@ -57,10 +57,8 @@ export class ChatComponent implements OnInit {
 
   sendMessage() {
     try {
-      /*this.new_message.emisor = this.user.username;
-      this.new_message.receptor = this.friend.username;*/
-      this.new_message.emisor = 'tommo_l';
-      this.new_message.receptor = 'niallitobb';
+      this.new_message.emisor = this.user.username;
+      this.new_message.receptor = this.friend.username;
       const date = new Date();
       const hours = date.getHours();
       const format = hours >= 12 ? 'pm' : 'am';
@@ -72,6 +70,7 @@ export class ChatComponent implements OnInit {
         this._datepipe.transform(new Date(), 'hh:mm ', 'en-us')?.toString() +
         format;
       this._chatService.sendMessage(this.new_message);
+      this.new_message = new MessageModel();
     } catch (error) {
       this.showSnackbar();
     }

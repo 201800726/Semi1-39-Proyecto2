@@ -1,6 +1,13 @@
 <mat-card class="wall">
   <mat-card-header>
-    <img mat-card-avatar class="header-image" [src]="user.profile_picture" />
+    <img
+      mat-card-avatar
+      class="header-image"
+      [src]="
+        'https://proyecto2-39-semi1.s3.us-east-2.amazonaws.com/' +
+        user.profile_picture
+      "
+    />
 
     <mat-card-title>
       <b>@{{ user.username }}</b></mat-card-title

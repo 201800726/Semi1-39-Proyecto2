@@ -5,17 +5,18 @@ import { MessageModel } from 'src/models/message.model';
 import { SocketService } from './socket.service';
 import { DayModel } from 'src/models/day.model';
 import { UserModel } from 'src/models/user.model';
+import { ConversationModel } from 'src/models/conversation.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChatService {
   public url: string;
-  public conversation: DayModel[];
+  public conversation: ConversationModel;
 
   constructor(private _httpClient: HttpClient, private socket: SocketService) {
     this.url = `${environment.url}/message`;
-    this.conversation = [];
+    this.conversation = new ConversationModel([]);
     this.receiveMessage();
   }
 
@@ -24,9 +25,34 @@ export class ChatService {
   }
 
   public receiveMessage() {
-    this.socket.io.on('message:server', (conversation) => {
-      this.showChat();
+    this.socket.io.on('message:server', (message) => {
+      if (
+        (message.emisor == this.conversation.emmiter &&
+          message.receptor == this.conversation.receiver) ||
+        (message.emisor == this.conversation.receiver &&
+          message.receptor == this.conversation.emmiter)
+      ) {
+        this.pushMessage(message);
+      }
+      //this.showChat();
     });
+  }
+
+  private pushMessage(message: MessageModel) {
+    const dayholder: DayModel = new DayModel([]);
+    message.emmiter = 1;
+    if (message.emisor === this.conversation.emmiter) message.emmiter = 2;
+    const index = this.conversation.days.indexOf(
+      this.conversation.days.find((day) => day.date == message.date) ||
+        dayholder
+    );
+    if (index < 0) {
+      dayholder.date = message.date;
+      dayholder.messages.push(message);
+      this.conversation.days.push(dayholder);
+    } else {
+      this.conversation.days[index].messages?.push(message);
+    }
   }
 
   public async showChat() {
@@ -36,8 +62,11 @@ export class ChatService {
     let user = new UserModel();
     container = localStorage.getItem('user');
     if (container !== null) user = <UserModel>JSON.parse(container);
-    this.conversation = [];
-    const dayholder: DayModel = new DayModel([]);
+    this.conversation = new ConversationModel(
+      [],
+      user.username,
+      friend.username
+    );
     try {
       const data = await this.getMessages(
         user.username || '',
@@ -46,19 +75,13 @@ export class ChatService {
       if (data['code'] === '200') {
         let date = '';
         data['data'].forEach((message: MessageModel) => {
-          message.emmiter = 1;
-          if (message.emisor === user.username) message.emmiter = 2;
           if (date != message.date) {
             const day: DayModel = new DayModel([]);
             date = message.date || '';
             day.date = message.date;
-            this.conversation.push(day);
+            this.conversation.days.push(day);
           }
-          const index = this.conversation.indexOf(
-            this.conversation.find((day) => day.date == message.date) ||
-              dayholder
-          );
-          this.conversation[index].messages?.push(message);
+          this.pushMessage(message);
         });
       }
     } catch (error) {

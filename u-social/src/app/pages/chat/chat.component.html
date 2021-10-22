@@ -6,7 +6,10 @@
         <img
           mat-card-avatar
           class="header-image"
-          [src]="friend.profile_picture"
+          [src]="
+            'https://proyecto2-39-semi1.s3.us-east-2.amazonaws.com/' +
+            friend.profile_picture
+          "
         />
 
         <mat-card-title>
@@ -17,7 +20,7 @@
       <mat-divider></mat-divider>
       <mat-card-content class="wall full-width">
         <div fxFlex fxLayout="column" fxLayoutAlign="start">
-          <div *ngFor="let day of _chatService.conversation">
+          <div *ngFor="let day of _chatService.conversation.days">
             <p class="message" fxLayout="row" fxLayoutAlign="center">
               - {{ day.date }} -
             </p>
