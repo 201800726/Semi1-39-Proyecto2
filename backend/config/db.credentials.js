@@ -1,5 +1,5 @@
 let db_credentials = {
-    host: '18.216.171.156', 
+    host: '3.144.167.238', 
     user: 'root', 
     password: 'proyecto2', 
     database: 'proyecto2', 

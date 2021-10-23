@@ -1,0 +1,8 @@
+version: "3.7"
+services: 
+  backend: 
+    container_name: "backend-p2"
+    restart: always
+    build: ./
+    ports:
+      - "3000:3000"

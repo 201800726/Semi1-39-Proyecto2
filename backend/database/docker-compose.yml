@@ -1,0 +1,11 @@
+version: "3.7"
+services:   
+  database:
+    container_name: mysql-p2
+    image: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: proyecto2
+    volumes:
+      - /var/lib/docker/volumes/mysql-db-data/_data:/var/lib/mysql
