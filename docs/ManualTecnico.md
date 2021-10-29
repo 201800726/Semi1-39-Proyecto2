@@ -42,7 +42,7 @@ La base de datos de la aplicación fue implementada con MySQL, contiene las sigu
 - ETIQUETA
 
 <div align="center"> 
-    <img src="./assets/images/DB.png" width="550">
+    <img src="./assets/images/db.png" width="550">
     <p align="center"> Base de datos </p>
 </div>
 <br/>
