@@ -5,7 +5,6 @@ Proyecto # 2 - Laboratorio deSeminario de Sistemas 1
 ## Documentación
 
 - [Manual Técnico](docs/ManualTecnico.md)
-- [Manual de Usuario](docs/ManualUsuario.md)
 
 ## Integrantes
 

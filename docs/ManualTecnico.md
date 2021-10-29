@@ -22,7 +22,30 @@
 
 
 ## Arquitectura
+<div align="center"> 
+    <img src="./assets/images/Arquitectura.png" width="550">
+    <p align="center"> Arquitectura </p>
+</div>
+<br/>
 
+La arquitectura de la aplicación fue realizada usando Angular como framework para el lado del frontend y Nodejs para el lado del backend. Estos servicios se levantaron en contenedores usando docker-compose y docker para poder empaquetar la aplicación. Se utilizo Rekoognition en API Gateway para poder realizar la funcionalidad de Inicio de Sesión con reconocimiento facial. También se utilizo Rekognition para poder filtar las publicaciones por etiquetas. 
+
+Se utilizo para la base de datos MySQL, asi mismo se utizo docker-compose para poder levantarla dentro de una EC2 en AWS. Se utilizó Amazon Translate para poder traducir las publicaciones al idioma español. 
+
+### Modelo Relacional Base de Datos 
+
+La base de datos de la aplicación fue implementada con MySQL, contiene las siguientes tablas. 
+- USUARIO
+- AMISTAD 
+- MENSAJE 
+- PUBLICACION
+- ETIQUETA
+
+<div align="center"> 
+    <img src="./assets/images/db.png" width="550">
+    <p align="center"> Base de datos </p>
+</div>
+<br/>
 
 ## Usuarios IAM
 
